@@ -1,0 +1,16 @@
+.login-button {
+  background-color: green;
+  display: inline-flex;
+  margin-top: 50vh;
+  border-radius: 8%;
+
+  font-family: Major Mono display;
+}
+
+body {
+  background-color: grey;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+}
