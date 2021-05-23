@@ -1,12 +1,12 @@
 import React from 'react';
 
 const TopGenre = ({ topArtists }) => {
-  const [topGenre, setTopGenre] = React.useState({});
+  // const [topGenre, setTopGenre] = React.useState({});
 
-    React.useEffect(() => {
+  //   React.useEffect(() => {
         
-       setTopGenre()
-   }) 
+  //      setTopGenre()
+  //  }) 
     
   return <div>topGenre in userTop;</div>;
 };

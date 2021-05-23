@@ -9,7 +9,7 @@ const TopArtist = ({ token }) => {
     fetch(
       'https://api.spotify.com/v1/me/top/artists?limit=50&time_range=short_term',
       {
-        headers: { Authorization: 'Bearer' + token },
+        headers: { Authorization: 'Bearer ' + token },
       }
     )
       .then((res) => res.json())
