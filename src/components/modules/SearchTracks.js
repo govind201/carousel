@@ -17,33 +17,6 @@ const SearchTracks = ({
   setTrackDetail,
 }) => {
   React.useEffect(() => {
-    // fetch('https://accounts.spotify.com/api/token', {
-    //   headers: {
-    //     Authorization:
-    //       'Basic' + btoa(spotify.clientID + ':' + spotify.clientSecret),
-    //     'Content-Type': 'application/x-www-form-urlencoded',
-    //   },
-    //   body: 'grant_type=client_credentials',
-    //   method: 'POST',
-    // })
-    //   .then((response) => response.json())
-    //   .then((tokenResponse) => {
-    //     setToken(tokenResponse.data.acces_token);
-
-  // const [genre, setGenre] = React.useState({
-  //   selectedGenre: '',
-  //   genresFromAPI: [],
-  // });
-  // const [playlist, setPlaylist] = React.useState({
-  //   selectedPlaylist: '',
-  //   playlistFromAPI: [],
-  // });
-  // const [tracks, setTracks] = React.useState({
-  //   selectedTrack: '',
-  //   tracksFromAPI: [],
-  // });
-  // // const [trackDetail, setTrackDetail] = React.useState(null);
-
     fetch('https://api.spotify.com/v1/browse/categories/locale=sv_US', {
       headers: {
         Authorization: 'Bearer' + token,

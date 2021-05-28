@@ -5,18 +5,13 @@ import Recommend from './components/modules/Recommend';
 import Login from './components/pages/Login';
 import { getTokenFromResponse } from './utils/credentials';
 // import spotifyApi from 'spotify-web-api-js';
-// import SearchTracks from './components/modules/SearchTracks';
-// const spotify = new spotifyapi();
 
 function App() {
-  //states for searching tracks with genre and playlist
-  // const [topTracksShortTerm, setTopTracksShortTerm] = React.useState([]);
-  // const [topTracksLongTerm, setTopTracksLongTerm] = React.useState([]);
-  // const [topTracksMediumTerm, setTopTracksMediumTerm] = React.useState([]);
-
-  // const [userData, setUserData] = React.useState({ name: '' });
 
   const [token, setToken] = React.useState('');
+  const [user, setUser] = React.useState({
+    user: ''
+  });
   React.useEffect(() => {
     let hash = getTokenFromResponse();
     window.location.hash = '';
@@ -29,12 +24,23 @@ function App() {
       localStorage.removeItem(token);
     };
   }, [token]);
+  React.useEffect(()=> {
+    if(!token) 
+    return null;
+       fetch('https://api.spotify.com/v1/me', 
+    {headers: {'Authorization': 'Bearer ' + token}
+    }).then((response) => 
+      response.json()
+     ).then((data) => (setUser({  user: data.display_name,...data})))
+     .catch(error => console.log(error))
+  },[token])
+  console.log(user)
   return (
     <div>
       {!token && <Login />}
       {token && (
         <div>
-          <h1>Welcome to carousel, {token}</h1>
+          <h1>Welcome to carousel, {token} , {user.user}</h1>
           <Recommend token={token} />
         </div>
       )}
