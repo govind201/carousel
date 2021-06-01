@@ -296,12 +296,12 @@ console.log(topArtists)
        {!token && (
          <Login />
         )}
-        {token && !isLoaded && (
+        {token && (
           <div >  
-            Please wait while we get your Favourites
+            PleasE wait while we get your Favourites
           </div>
         )}
-        {token && isLoaded && (
+        {token && (
           <div>
             <Logo/>
             <div >
@@ -344,7 +344,7 @@ console.log(topArtists)
       </div>
       }
 
-        { isLoaded && <TopGenre topArtists={topArtists} />}  
+        { <TopGenre topArtists={topArtists} />}  
     </div>
   );
 };

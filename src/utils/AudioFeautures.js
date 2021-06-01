@@ -11,7 +11,6 @@ import Playlist from "./Playlist.js";
 import Emoji from "react-emoji-render";
 import useIsMounted from './useIsMounted.js';
 import UserTopFeatures from '../components/modules/UserTopFeatures.js';
-// import queryString from "query-string";
 // import UserTopFeatures from '../components/modules/UserTopFeatures';
 
 
@@ -66,7 +65,7 @@ const AudioFeatures = ({ token, userId}) => {
   ); const [audioFeaturesLongTerm, setAudioFeaturesLongTerm] = React.useState(
     []
   );
-  const [tracksLoaded, setTracksLoaded] = React.useState(false)
+  // const [tracksLoaded, setTracksLoaded] = React.useState(false)
   const [trackInfoLoaded, setTrackInfoLoaded] = React.useState(false)
   const isMounted = useIsMounted();
 
@@ -277,8 +276,7 @@ function returnRange(val) {
     return "high";
   }
 }  
-
-const  select_tracks = React.useCallback((track) => {
+const  select_tracks = (track)  =>{
   let danceability = returnRange(track.danceability);
   let energy = returnRange(track.energy);
   let acousticness = returnRange(track.acousticness);
@@ -320,12 +318,14 @@ const  select_tracks = React.useCallback((track) => {
       return "none";
   }
   
-},[]);
+}
 if(filteredIDArr.length > 1)
 console.log(filteredIDArr)
 
 //set filtered array based on mood chosen
  React.useEffect(() => {
+   if(!trackInfoLoaded)
+      return;
   if (viewNum === "All Time"){
     setFilteredIDArr(
       topTracks.shortTerm.filter((e) => (Mood === "All Songs") ? e : (select_tracks(e)===Mood)).map(e => e.id)
@@ -342,8 +342,7 @@ console.log(filteredIDArr)
     );
   }
    // eslint-disable-next-line react-hooks/exhaustive-deps
-
-   }, [Mood, viewNum, topTracks.mediumTerm, topTracks.longTerm, select_tracks, topTracks.shortTerm ]);
+   }, [Mood, viewNum]);
 
 const toggleMood = () => {
     setOpenMood(!dropdownOpenMood);
@@ -419,7 +418,7 @@ const toggleMood = () => {
 
   React.useEffect(()=>{
     if(topTracks.longTerm.length  === 1 && topTracks.mediumTerm.length === 1  && topTracks.shortTerm.length === 1 ) {
-       setTracksLoaded(true)
+      //  setTracksLoaded(true)
     }
        console.log("useEffect for data loaded called",  topTracks)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -432,7 +431,7 @@ const toggleMood = () => {
         audioFeaturesShortTerm={audioFeaturesShortTerm}
       /> */}
 
-        { token  && tracksLoaded && trackInfoLoaded &&
+        { token && 
       <div>
             <div style={{textAlign: "center"}}>
               <ButtonDropdown
@@ -469,7 +468,7 @@ const toggleMood = () => {
                 <DropdownToggle
                   caret
                   style={{
-                    backgroundColor: "transparent",
+                    backgroundColor: "#1DB954",
                     borderColor: "white",
                     color: "white",
                     borderRadius: "20px"
@@ -483,7 +482,7 @@ const toggleMood = () => {
                   <DropdownItem onClick={clickedST}>30 Days <Emoji text=":clock1:"/></DropdownItem>
                 </DropdownMenu>
               </ButtonDropdown>
-          
+
               <br />
               <br />
               
@@ -508,13 +507,13 @@ const toggleMood = () => {
                       : <h3 style={{textAlign: "center"}}>there are no songs that match :(</h3>
                       }
                       </div>
-                  : <h3 style={{textAlign: "center"}}>Pick a mood!</h3>
+                   : <h3 style={{textAlign: "center"}}>Pick a mood!</h3>
                   }
               </div>
             </div>
         }
 
-         {token && tracksLoaded && trackInfoLoaded && (
+         {token &&  (
          <div> 
       <Playlist userId = {userId} token={token} topTracksShortTerm = {topTracks.shortTerm}/>
       <UserTopFeatures  audioFeaturesShortTerm = {audioFeaturesShortTerm} audioFeaturesMediumTerm = {audioFeaturesMediumTerm}/>
@@ -527,3 +526,47 @@ const toggleMood = () => {
 };
 
 export default AudioFeatures;
+
+// const  select_tracks = React.useCallback((track) => {
+//   let danceability = returnRange(track.danceability);
+//   let energy = returnRange(track.energy);
+//   let acousticness = returnRange(track.acousticness);
+//   // let instrumentalness = returnRange(track.instrumentalness);
+//   // let speechiness = returnRange(track.speechiness);
+//   let valence = returnRange(track.valence);
+//   let tempo = track.tempo;
+
+  
+//   if (
+//     energy === "low" &&
+//     acousticness === "high" &&
+//     tempo < 100 
+//   ){
+//     return "Chill";
+//    } 
+//   else if (
+//     acousticness === "high" 
+//   ) {
+//     return "Acoustic";
+//   } else if (
+//     energy === "high" &&
+//     valence !== "low" &&
+//     danceability !== "low"
+//   ) {
+//     return "Happy";
+//   } else if (
+//     energy === "low"
+//   ) {
+//     return "Feelz";
+//   } else if (
+//     danceability !== "low" &&
+//     tempo > 100 &&
+//     energy !== "low"
+//   ) {
+//       return "Party";
+//   }
+//   else {
+//       return "none";
+//   }
+  
+// },[]);
