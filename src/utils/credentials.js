@@ -1,4 +1,3 @@
-// import queryString from 'query-string';
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
 // Replace with your app's client ID, redirect URI and desired scopes
 const clientId = '68d0c9e07d2d4f4dae29f3b00f6f1805';
@@ -8,6 +7,7 @@ const scopes = [
   'user-read-email',
   'user-top-read',
   'user-modify-playback-state',
+  'playlist-modify-public'
 ];
 
 export const getTokenFromResponse = () => {

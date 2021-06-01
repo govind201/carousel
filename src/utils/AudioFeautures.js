@@ -9,20 +9,38 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import Playlist from "./Playlist.js";
 import Emoji from "react-emoji-render";
+import useIsMounted from './useIsMounted.js';
+import UserTopFeatures from '../components/modules/UserTopFeatures.js';
 // import queryString from "query-string";
-import UserTopFeatures from '../components/modules/UserTopFeatures';
+// import UserTopFeatures from '../components/modules/UserTopFeatures';
 
 
-const AudioFeatures = ({ token, topTracksShortTerm, topTracksMediumTerm, topTracksLongTerm }) => {
-  const [audioFeaturesShortTerm, setAudioFeaturesShortTerm] = React.useState(
-    []
-  );
-  const [audioFeaturesMediumTerm, setAudioFeaturesMediumTerm] = React.useState(
-    []
-  );
-  const [audioFeaturesLongTerm, setAudioFeaturesLongTerm] = React.useState(
-    []
-  );
+const topTracksReducer = (state, action) => {
+  switch (action.type) {
+    case 'medium_term':
+      return {
+        ...state,
+        shortTerm: [action.val.map((item) => item.id)],
+      };
+
+    case 'short_term':
+      return {
+        ...state,
+        mediumTerm: [action.val.map((item) => item.id)],
+      };
+      case 'long_term':
+        return {
+          ...state,
+          longTerm: [action.val.map((item => item.id))]
+        }
+
+    default:
+      return state;
+  }
+};
+
+
+const AudioFeatures = ({ token, userId}) => {
 
     const [filteredIDArr, setFilteredIDArr] = React.useState([]);
 
@@ -34,12 +52,73 @@ const AudioFeatures = ({ token, topTracksShortTerm, topTracksMediumTerm, topTrac
   const [Mood, setMood] = React.useState("");
   const [viewNum, setView] = React.useState("All Time");
 
-//console.log(filteredIDArr)
+
+  const [topTracks, topTracksDispatch] = React.useReducer(topTracksReducer, {
+    shortTerm: [],
+    mediumTerm: [],
+    longTerm: []
+  });
+  
+  const [audioFeaturesShortTerm, setAudioFeaturesShortTerm] = React.useState(
+    []
+  );  const [audioFeaturesMediumTerm, setAudioFeaturesMediumTerm] = React.useState(
+    []
+  ); const [audioFeaturesLongTerm, setAudioFeaturesLongTerm] = React.useState(
+    []
+  );
+  const [tracksLoaded, setTracksLoaded] = React.useState(false)
+  const [trackInfoLoaded, setTrackInfoLoaded] = React.useState(false)
+  const isMounted = useIsMounted();
 
 
+  //Effect for topTracks
   React.useEffect(() => {
-    //short_term
-    let shortTermArr = topTracksShortTerm.reduce(
+    if(topTracks.longTerm.length  === 1 && topTracks.mediumTerm.length === 1  && topTracks.shortTerm.length === 1 ) {
+      return;
+    }
+    fetch(
+      'https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=short_term',
+      { headers: { Authorization: 'Bearer ' + token } }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (isMounted())
+          return topTracksDispatch({ type: 'short_term', val: data.items });
+      })
+      .catch((error) => console.log(error));
+    fetch(
+      'https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=medium_term',
+      { headers: { Authorization: 'Bearer ' + token } }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (isMounted())
+          return topTracksDispatch({ type: 'medium_term', val: data.items });
+      })
+      .catch((error) => console.log(error));
+
+    fetch(
+      'https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term',
+      { headers: { Authorization: 'Bearer ' + token } }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (isMounted())
+          return topTracksDispatch({ type: 'long_term', val: data.items });
+      })
+      .catch((error) => console.log(error));
+      
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, isMounted]);
+
+  //Effect to check if data loaded
+
+
+//TopTacks Features: shortterm
+  React.useEffect(() => {
+    if(audioFeaturesShortTerm.length === 50)
+       return;
+    let shortTermArr = topTracks.shortTerm.reduce(
       (total, curr) => total + ',' + curr,
       ''
     );
@@ -72,12 +151,13 @@ const AudioFeatures = ({ token, topTracksShortTerm, topTracksMediumTerm, topTrac
       )
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  }, [audioFeaturesShortTerm, token, topTracksShortTerm]);
+  }, [    topTracks.shortTerm]);
 
   //for medium Term info of tracks
   React.useEffect(() => {
-    let mediumTermArr = topTracksMediumTerm.reduce(
+    if(audioFeaturesMediumTerm.length === 50)
+     return;
+    let mediumTermArr = topTracks.mediumTerm.reduce(
       (total, curr) => total + ',' + curr,
       ''
     );
@@ -109,11 +189,13 @@ const AudioFeatures = ({ token, topTracksShortTerm, topTracksMediumTerm, topTrac
       .catch((err) => console.log(err));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  }, [audioFeaturesMediumTerm, token, topTracksMediumTerm]);
+  }, [ topTracks.mediumTerm]);
 
   React.useEffect(() => {
-    let longTermArr = topTracksLongTerm.reduce(
+     if(audioFeaturesLongTerm.length === 50)
+        return;
+
+    let longTermArr = topTracks.longTerm.reduce(
       (total, curr) => total + ',' + curr,
       ''
     );
@@ -145,11 +227,11 @@ const AudioFeatures = ({ token, topTracksShortTerm, topTracksMediumTerm, topTrac
       .catch((err) => console.log(err));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    
-  }, [audioFeaturesLongTerm, token, topTracksLongTerm, topTracksMediumTerm]);
+  }, [  topTracks.longTerm]);
 
 
     console.log("filteredIdarr in audioFeatures",filteredIDArr)
+
 React.useEffect(() => {
   //take in an array of filtered IDs and return the image, track name, artist
     if (filteredIDArr.length === 0 || filteredIDArr){
@@ -157,6 +239,7 @@ React.useEffect(() => {
       setTopSongsArr([])
       return;
     }
+
     let arrLink = filteredIDArr.reduce((total, init) => (total + ","+ init) , "");
     arrLink = arrLink.slice(1,);
     console.log("arrlink in audioFeatures",arrLink)
@@ -180,7 +263,8 @@ React.useEffect(() => {
     
     
   
-}, [filteredIDArr,token]);    
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [filteredIDArr]);    
 //console.log(topSongsArr); 
 
 
@@ -237,27 +321,29 @@ const  select_tracks = React.useCallback((track) => {
   }
   
 },[]);
+if(filteredIDArr.length > 1)
+console.log(filteredIDArr)
 
 //set filtered array based on mood chosen
  React.useEffect(() => {
   if (viewNum === "All Time"){
     setFilteredIDArr(
-      topTracksShortTerm.filter((e) => (Mood === "All Songs") ? e : (select_tracks(e)===Mood)).map(e => e.id)
+      topTracks.shortTerm.filter((e) => (Mood === "All Songs") ? e : (select_tracks(e)===Mood)).map(e => e.id)
     );
   }
   else if (viewNum === "6 Months"){
     setFilteredIDArr(
-      topTracksMediumTerm.filter((e) => (Mood === "All Songs") ? e : select_tracks(e)===Mood).map(e => e.id)
+      topTracks.mediumTerm.filter((e) => (Mood === "All Songs") ? e : select_tracks(e)===Mood).map(e => e.id)
     );
   }
   else{
     setFilteredIDArr(
-      topTracksLongTerm.filter((e) => (Mood === "All Songs") ? e : select_tracks(e)===Mood).map(e => e.id)
+      topTracks.longTerm.filter((e) => (Mood === "All Songs") ? e : select_tracks(e)===Mood).map(e => e.id)
     );
   }
    // eslint-disable-next-line react-hooks/exhaustive-deps
 
-   }, [Mood, viewNum, topTracksMediumTerm, topTracksLongTerm, select_tracks, topTracksShortTerm ]);
+   }, [Mood, viewNum, topTracks.mediumTerm, topTracks.longTerm, select_tracks, topTracks.shortTerm ]);
 
 const toggleMood = () => {
     setOpenMood(!dropdownOpenMood);
@@ -323,18 +409,30 @@ const toggleMood = () => {
   console.log("audioFeaturesShortTerm",audioFeaturesShortTerm);
   console.log("audioFeaturesMediumTerm",audioFeaturesMediumTerm);
   console.log("audioFeaturesLongTerm",audioFeaturesLongTerm)
+  console.log("AudioFeatures.js called");
 
+  //Effects to check if data loaded
+  React.useEffect(()=>{
+    if(audioFeaturesLongTerm.length === 50 && audioFeaturesMediumTerm.length === 50 && audioFeaturesShortTerm.length === 50)
+        setTrackInfoLoaded(true);
+  }, [audioFeaturesLongTerm.length, audioFeaturesMediumTerm.length, audioFeaturesShortTerm.length])
 
+  React.useEffect(()=>{
+    if(topTracks.longTerm.length  === 1 && topTracks.mediumTerm.length === 1  && topTracks.shortTerm.length === 1 ) {
+       setTracksLoaded(true)
+    }
+       console.log("useEffect for data loaded called",  topTracks)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[ topTracks.longTerm.length, topTracks.mediumTerm.length, topTracks.shortTerm.length])
+  
   return (
     <div>
-      
-
-      <UserTopFeatures
+      {/* <UserTopFeatures
         audioFeaturesMediumTerm={audioFeaturesMediumTerm}
         audioFeaturesShortTerm={audioFeaturesShortTerm}
-      />
+      /> */}
 
-        {(token !== "") ?
+        { token  && tracksLoaded && trackInfoLoaded &&
       <div>
             <div style={{textAlign: "center"}}>
               <ButtonDropdown
@@ -414,20 +512,17 @@ const toggleMood = () => {
                   }
               </div>
             </div>
-      
-      
+        }
 
-      : 
-      (<div  style={{textAlign: "center"}}>
-          {/* <h1>If you haven't signed in, click <Button onClick={(e) => {
-                                                  e.preventDefault();
-                                                  window.location.href='http://moodie-backend.herokuapp.com/login';
-                                                  }}>this</Button>
-          </h1> */}
+         {token && tracksLoaded && trackInfoLoaded && (
+         <div> 
+      <Playlist userId = {userId} token={token} topTracksShortTerm = {topTracks.shortTerm}/>
+      <UserTopFeatures  audioFeaturesShortTerm = {audioFeaturesShortTerm} audioFeaturesMediumTerm = {audioFeaturesMediumTerm}/>
+      </div>
+         ) 
+          }
           <h2>Click <Button >here</Button> to start if you've signed in!</h2>
-        <p>With Moodie, you can pick a mood and discover your top tracks that fit that vibe!</p>
-      </div>)}
-    </div>
+      </div>  
   );
 };
 

@@ -15,9 +15,10 @@ const UserTopFeatures = ({
     valence: {},
     tempo: {},
   });
+      
 
-  function getAverage(arr) {
-    return arr.reduce((total, curr) => total + curr) / arr.length;
+  const getAverage = (nums) =>{
+      return nums.reduce((a, b) => (a + b)) / nums.length;
   }
 
   const TopAudioFeaturesCalled = () => {

@@ -1,16 +1,15 @@
 import React from 'react';
 import './App.css';
-import Recommend from './components/modules/Recommend';
-
 import Login from './components/pages/Login';
+import AudioFeatures from './utils/AudioFeautures';
 import { getTokenFromResponse } from './utils/credentials';
-// import spotifyApi from 'spotify-web-api-js';
 
 function App() {
 
   const [token, setToken] = React.useState('');
   const [user, setUser] = React.useState({
-    user: ''
+    user: '',
+    userId: ''
   });
   React.useEffect(() => {
     let hash = getTokenFromResponse();
@@ -31,17 +30,21 @@ function App() {
     {headers: {'Authorization': 'Bearer ' + token}
     }).then((response) => 
       response.json()
-     ).then((data) => (setUser({  user: data.display_name,...data})))
+     ).then((data) => {
+       console.log("Data from me in app.js", data)
+      setUser({ userId: data.id, user: data.display_name,...data}) 
+      
+     } )
      .catch(error => console.log(error))
   },[token])
   console.log(user)
   return (
     <div>
       {!token && <Login />}
-      {token && (
+      {token && user.userId && (
         <div>
-          <h1>Welcome to carousel, {token} , {user.user}</h1>
-          <Recommend token={token} />
+          <h1>Welcome to carousel, {token} , {user.userId}</h1>
+          <AudioFeatures token={token} userId = {user.userId} />
         </div>
       )}
     </div>
