@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   ButtonDropdown,
   DropdownToggle,
@@ -11,7 +12,7 @@ import Playlist from "./Playlist.js";
 import Emoji from "react-emoji-render";
 import useIsMounted from './useIsMounted.js';
 import UserTopFeatures from '../components/modules/UserTopFeatures.js';
-// import UserTopFeatures from '../components/modules/UserTopFeatures';
+// import UserTopFeaturges from '../components/modules/UserTopFeatures';
 
 
 const topTracksReducer = (state, action) => {
@@ -130,9 +131,9 @@ const AudioFeatures = ({ token, userId}) => {
       },
     })
       .then((res) => res.json())
-      .then((data) => {
-       console.log(data)
-        return setAudioFeaturesShortTerm(
+      .then((data) =>  { 
+     return    isMounted() ?
+         setAudioFeaturesShortTerm(
           ...audioFeaturesShortTerm,
           data.audio_features.map((item) => ({
             id: item.id,
@@ -145,8 +146,7 @@ const AudioFeatures = ({ token, userId}) => {
             speechiness: item.speechiness,
             valence: item.valence,
             tempo: item.tempo,
-          }))
-        ) }
+          }))): data }
       )
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -168,8 +168,10 @@ const AudioFeatures = ({ token, userId}) => {
       },
     })
       .then((res) => res.json())
-      .then((data) =>
-        setAudioFeaturesMediumTerm(
+      .then((data) => {
+       console.log("data audio features in audiofeatures fn", data);
+      return    isMounted() ?
+         setAudioFeaturesMediumTerm(
           ...audioFeaturesMediumTerm,
           data.audio_features.map((item) => ({
             id: item.id,
@@ -183,7 +185,7 @@ const AudioFeatures = ({ token, userId}) => {
             valence: item.valence,
             tempo: item.tempo,
           }))
-        )
+        ):data }
       )
       .catch((err) => console.log(err));
 
@@ -199,6 +201,7 @@ const AudioFeatures = ({ token, userId}) => {
       ''
     );
    longTermArr = longTermArr.slice(1);
+   console.log("longTermArr", longTermArr);
     fetch(`https://api.spotify.com/v1/audio-features?ids=${longTermArr}`, {
       headers: {
         Authorization: 'Bearer ' + token,
@@ -206,8 +209,10 @@ const AudioFeatures = ({ token, userId}) => {
       },
     })
       .then((res) => res.json())
-      .then((data) =>  
-        setAudioFeaturesLongTerm(
+      .then((data) =>  {
+       console.log("data audio features in audiofeatures fn", data);
+      return  isMounted() ?
+       setAudioFeaturesLongTerm(
           ...audioFeaturesLongTerm,
           data.audio_features.map((item) => ({
             id: item.id,
@@ -221,8 +226,8 @@ const AudioFeatures = ({ token, userId}) => {
             valence: item.valence,
             tempo: item.tempo,
           }))
-        )
-      )
+        ) : data
+      })
       .catch((err) => console.log(err));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -426,11 +431,6 @@ const toggleMood = () => {
   
   return (
     <div>
-      {/* <UserTopFeatures
-        audioFeaturesMediumTerm={audioFeaturesMediumTerm}
-        audioFeaturesShortTerm={audioFeaturesShortTerm}
-      /> */}
-
         { token && 
       <div>
             <div style={{textAlign: "center"}}>
@@ -526,47 +526,3 @@ const toggleMood = () => {
 };
 
 export default AudioFeatures;
-
-// const  select_tracks = React.useCallback((track) => {
-//   let danceability = returnRange(track.danceability);
-//   let energy = returnRange(track.energy);
-//   let acousticness = returnRange(track.acousticness);
-//   // let instrumentalness = returnRange(track.instrumentalness);
-//   // let speechiness = returnRange(track.speechiness);
-//   let valence = returnRange(track.valence);
-//   let tempo = track.tempo;
-
-  
-//   if (
-//     energy === "low" &&
-//     acousticness === "high" &&
-//     tempo < 100 
-//   ){
-//     return "Chill";
-//    } 
-//   else if (
-//     acousticness === "high" 
-//   ) {
-//     return "Acoustic";
-//   } else if (
-//     energy === "high" &&
-//     valence !== "low" &&
-//     danceability !== "low"
-//   ) {
-//     return "Happy";
-//   } else if (
-//     energy === "low"
-//   ) {
-//     return "Feelz";
-//   } else if (
-//     danceability !== "low" &&
-//     tempo > 100 &&
-//     energy !== "low"
-//   ) {
-//       return "Party";
-//   }
-//   else {
-//       return "none";
-//   }
-  
-// },[]);

@@ -1,7 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import useIsMounted from '../../../utils/useIsMounted';
-// import $ from 'jquery';
 import TopGenre from './topGenre';
 import SpotifyWebApi from 'spotify-web-api-js';
 import TopFeatures from './TopFeatures';
@@ -195,6 +194,7 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
        }
      );
   }
+  console.log(play, "this is display play in playlist");
     const getRecs = () => {
     //Use top 5 artists as seeds
     var len = 5;
