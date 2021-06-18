@@ -109,9 +109,8 @@ const AudioFeatures = ({ token, userId}) => {
       .catch((error) => console.log(error));
       
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, isMounted]);
+  }, [token]);
 
-  //Effect to check if data loaded
 
 
 //TopTacks Features: shortterm
@@ -150,7 +149,7 @@ const AudioFeatures = ({ token, userId}) => {
       )
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [    topTracks.shortTerm]);
+  }, [topTracks.shortTerm]);
 
   //for medium Term info of tracks
   React.useEffect(() => {
@@ -231,7 +230,7 @@ const AudioFeatures = ({ token, userId}) => {
       .catch((err) => console.log(err));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [  topTracks.longTerm]);
+  }, [topTracks.longTerm]);
 
 
     console.log("filteredIdarr in audioFeatures",filteredIDArr)
