@@ -66,16 +66,14 @@ const AudioFeatures = ({ token, userId}) => {
   ); const [audioFeaturesLongTerm, setAudioFeaturesLongTerm] = React.useState(
     []
   );
-  // const [tracksLoaded, setTracksLoaded] = React.useState(false)
+  const [tracksLoaded, setTracksLoaded] = React.useState(false)
   const [trackInfoLoaded, setTrackInfoLoaded] = React.useState(false)
   const isMounted = useIsMounted();
 
 
   //Effect for topTracks
   React.useEffect(() => {
-    if(topTracks.longTerm.length  === 1 && topTracks.mediumTerm.length === 1  && topTracks.shortTerm.length === 1 ) {
-      return;
-    }
+    console.log("useEffect for topSongs called")
     fetch(
       'https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=short_term',
       { headers: { Authorization: 'Bearer ' + token } }
@@ -112,9 +110,9 @@ const AudioFeatures = ({ token, userId}) => {
   }, [token]);
 
 
-
 //TopTacks Features: shortterm
   React.useEffect(() => {
+    console.log("useEffect for topFeatures shortTerm called")
     if(audioFeaturesShortTerm.length === 50)
        return;
     let shortTermArr = topTracks.shortTerm.reduce(
@@ -136,6 +134,7 @@ const AudioFeatures = ({ token, userId}) => {
           ...audioFeaturesShortTerm,
           data.audio_features.map((item) => ({
             id: item.id,
+            duration_ms: item.duration_ms,
             acousticness: item.acousticness,
             danceability: item.danceability,
             energy: item.energy,
@@ -153,6 +152,7 @@ const AudioFeatures = ({ token, userId}) => {
 
   //for medium Term info of tracks
   React.useEffect(() => {
+    console.log("useEffect for audioFeatures medium term called")
     if(audioFeaturesMediumTerm.length === 50)
      return;
     let mediumTermArr = topTracks.mediumTerm.reduce(
@@ -168,12 +168,12 @@ const AudioFeatures = ({ token, userId}) => {
     })
       .then((res) => res.json())
       .then((data) => {
-       console.log("data audio features in audiofeatures fn", data);
       return    isMounted() ?
          setAudioFeaturesMediumTerm(
           ...audioFeaturesMediumTerm,
           data.audio_features.map((item) => ({
             id: item.id,
+            duration_ms: item.duration_ms,
             acousticness: item.acousticness,
             danceability: item.danceability,
             energy: item.energy,
@@ -192,9 +192,7 @@ const AudioFeatures = ({ token, userId}) => {
   }, [ topTracks.mediumTerm]);
 
   React.useEffect(() => {
-     if(audioFeaturesLongTerm.length === 50)
-        return;
-
+    console.log("useEffect for audioFeatures longTerm called")
     let longTermArr = topTracks.longTerm.reduce(
       (total, curr) => total + ',' + curr,
       ''
@@ -209,12 +207,12 @@ const AudioFeatures = ({ token, userId}) => {
     })
       .then((res) => res.json())
       .then((data) =>  {
-       console.log("data audio features in audiofeatures fn", data);
       return  isMounted() ?
        setAudioFeaturesLongTerm(
           ...audioFeaturesLongTerm,
           data.audio_features.map((item) => ({
             id: item.id,
+            duration_ms: item.duration_ms,
             acousticness: item.acousticness,
             danceability: item.danceability,
             energy: item.energy,
@@ -242,10 +240,11 @@ React.useEffect(() => {
       setTopSongsArr([])
       return;
     }
-
+     console.log("filterredIdarr in useEffect for fetching top tracks for the current mood")
     let arrLink = filteredIDArr.reduce((total, init) => (total + ","+ init) , "");
     arrLink = arrLink.slice(1,);
     console.log("arrlink in audioFeatures",arrLink)
+    
     fetch(`https://api.spotify.com/v1/tracks?ids=${arrLink}`, 
         {headers: {'Authorization': 'Bearer ' + token}
         }).then((response) => response.json())
@@ -280,6 +279,9 @@ function returnRange(val) {
     return "high";
   }
 }  
+//set filtered array based on mood chosen
+ React.useEffect(() => {
+
 const  select_tracks = (track)  =>{
   let danceability = returnRange(track.danceability);
   let energy = returnRange(track.energy);
@@ -323,30 +325,40 @@ const  select_tracks = (track)  =>{
   }
   
 }
-if(filteredIDArr.length > 1)
-console.log(filteredIDArr)
-
-//set filtered array based on mood chosen
- React.useEffect(() => {
-   if(!trackInfoLoaded)
+   if(!tracksLoaded)
+        return;
+   if(!trackInfoLoaded) {
+      console.log("TracksInfo not loaded yet")
       return;
+   }
+   const filterSongs = (topSongs) => {
+     let filterSongs = topSongs.filter((item)=>{
+       if(Mood === 'All Songs') return true;
+       else{
+           return (select_tracks(item) === Mood)? true: false
+       }
+     })
+    return filterSongs;
+   }
+   console.log("Data loaded and useEffect for populating filtered id arr called")
   if (viewNum === "All Time"){
+      // topTracks.shortTerm.filter((e) => (Mood === "All Songs") ? e : (select_tracks(e)===Mood)).map(e => e.id)
     setFilteredIDArr(
-      topTracks.shortTerm.filter((e) => (Mood === "All Songs") ? e : (select_tracks(e)===Mood)).map(e => e.id)
+          filterSongs(topTracks.shortTerm)
     );
   }
   else if (viewNum === "6 Months"){
     setFilteredIDArr(
-      topTracks.mediumTerm.filter((e) => (Mood === "All Songs") ? e : select_tracks(e)===Mood).map(e => e.id)
+      topTracks.mediumTerm
     );
   }
   else{
     setFilteredIDArr(
-      topTracks.longTerm.filter((e) => (Mood === "All Songs") ? e : select_tracks(e)===Mood).map(e => e.id)
+      topTracks.longTerm
     );
   }
    // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [Mood, viewNum]);
+   }, [Mood, topTracks.longTerm, topTracks.mediumTerm, topTracks.shortTerm,viewNum]);
 
 const toggleMood = () => {
     setOpenMood(!dropdownOpenMood);
@@ -409,25 +421,30 @@ const toggleMood = () => {
   //     return "LT";
   //   }
   // }
-  console.log("audioFeaturesShortTerm",audioFeaturesShortTerm);
-  console.log("audioFeaturesMediumTerm",audioFeaturesMediumTerm);
-  console.log("audioFeaturesLongTerm",audioFeaturesLongTerm)
-  console.log("AudioFeatures.js called");
 
   //Effects to check if data loaded
   React.useEffect(()=>{
     if(audioFeaturesLongTerm.length === 50 && audioFeaturesMediumTerm.length === 50 && audioFeaturesShortTerm.length === 50)
         setTrackInfoLoaded(true);
+      console.log("Track info loaded", trackInfoLoaded)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioFeaturesLongTerm.length, audioFeaturesMediumTerm.length, audioFeaturesShortTerm.length])
 
   React.useEffect(()=>{
-    if(topTracks.longTerm.length  === 1 && topTracks.mediumTerm.length === 1  && topTracks.shortTerm.length === 1 ) {
-      //  setTracksLoaded(true)
-    }
-       console.log("useEffect for data loaded called",  topTracks)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[ topTracks.longTerm.length, topTracks.mediumTerm.length, topTracks.shortTerm.length])
-  
+    if(topTracks.shortTerm.length === 1 && topTracks.mediumTerm.length === 1 && topTracks.longTerm.length === 1)
+        setTracksLoaded(true)
+    console.log(topTracks)
+  },[topTracks])
+
+  console.log("To check audioFeaturesShortTerm",audioFeaturesShortTerm);
+  console.log("To check audioFeaturesMediumTerm",audioFeaturesMediumTerm);
+  console.log("To check audioFeaturesLongTerm",audioFeaturesLongTerm)
+  console.log("To check topsongs", topTracks);
+  console.log("To check Filtered Id arr", filteredIDArr)
+  console.log("To check  topTracks Loaded", tracksLoaded)
+  console.log("To check tracksInfoLoaded", trackInfoLoaded)
+ 
   return (
     <div>
         { token && 
@@ -514,7 +531,7 @@ const toggleMood = () => {
 
          {token &&  (
          <div> 
-      <Playlist userId = {userId} token={token} topTracksShortTerm = {topTracks.shortTerm}/>
+      <Playlist userId = {userId} token={token} topTracksShortTerm = {topTracks.shortTerm} audioFeaturesShortTerm = {audioFeaturesShortTerm} audioFeaturesMediumTerm = {audioFeaturesMediumTerm} />
       <UserTopFeatures  audioFeaturesShortTerm = {audioFeaturesShortTerm} audioFeaturesMediumTerm = {audioFeaturesMediumTerm}/>
       </div>
          ) 

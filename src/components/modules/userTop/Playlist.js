@@ -36,7 +36,9 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
       createdRec: false
   })
 
-
+  React.useEffect(()=>{
+         spotifyApi.setAccessToken(token);
+  },[token])
   const getAverage = (nums) =>{
       return nums.reduce((a, b) => (a + b)) / nums.length;
   }
