@@ -235,7 +235,7 @@ const AudioFeatures = ({ token, userId}) => {
 
 React.useEffect(() => {
   //take in an array of filtered IDs and return the image, track name, artist
-    if (filteredIDArr.length === 0 || filteredIDArr){
+    if (filteredIDArr.length === 0 || !filteredIDArr){
       console.log("empty");
       setTopSongsArr([])
       return;
@@ -263,11 +263,9 @@ React.useEffect(() => {
         
                     .catch(error => console.log(error))
     
-    
   
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [filteredIDArr]);    
-//console.log(topSongsArr); 
 
 
 //FUNCTIONS TO FILTER MOODS
@@ -342,7 +340,6 @@ const  select_tracks = (track)  =>{
    }
    console.log("Data loaded and useEffect for populating filtered id arr called")
   if (viewNum === "All Time"){
-      // topTracks.shortTerm.filter((e) => (Mood === "All Songs") ? e : (select_tracks(e)===Mood)).map(e => e.id)
     setFilteredIDArr(
           filterSongs(topTracks.shortTerm)
     );
@@ -410,17 +407,6 @@ const toggleMood = () => {
     
   }
 
-  //  const checkTime = (timeFrame) => {
-  //   if (timeFrame === "30 Days"){
-  //     return "ST";
-  //   }
-  //   if (timeFrame === "6 Months"){
-  //     return "MT";
-  //   }
-  //   else {
-  //     return "LT";
-  //   }
-  // }
 
   //Effects to check if data loaded
   React.useEffect(()=>{
@@ -444,6 +430,7 @@ const toggleMood = () => {
   console.log("To check Filtered Id arr", filteredIDArr)
   console.log("To check  topTracks Loaded", tracksLoaded)
   console.log("To check tracksInfoLoaded", trackInfoLoaded)
+  console.log("To check top songsArr", topSongsArr)
  
   return (
     <div>

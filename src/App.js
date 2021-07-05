@@ -38,16 +38,23 @@ function App() {
      .catch(error => console.log(error))
   },[token])
   console.log(user)
+  const isToken = (token? <p>Yes, they have token</p>: <p>No, they don't </p>)
   return (
-    <div>
+    <>
+    <div class = "body"  >
       {!token && <Login />}
       {token && user.userId && (
-        <div>
-          <h1>Welcome to carousel, {token} , {user.userId}</h1>
+        <div >
+          <div class = 'title'>
+            <p>{isToken}</p>
+           <h1>Welcome to carousel, </h1> 
+           <h1>ALL THE MUSIC YOU LOVE</h1> 
+           </div>
           <AudioFeatures token={token} userId = {user.userId} />
         </div>
       )}
     </div>
+</>
   );
 }
 

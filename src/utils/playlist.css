@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.photo{
+  color: blue;
+  width: 100%;
+}   
+    
+
+.artist{
+  color: rgb(99, 15, 15);
+  font-style: oblique;
+}
+
+.track{
+  color: rgb(99, 15, 15);
+  text-align: center;
+} 
+
+@media only screen and (max-width: 480px) {
+
+    .comp{ 
+      font-size: calc(12px + 1vw)
+    }
+    h1 {
+      font-size: 4.9vw;
+    }
+    h2 {
+      font-size: 3.0vh;
+    }
+    p {
+      font-size: 2vmin;
+    }
+    
+  
+  }
+  

@@ -1,26 +1,23 @@
 import React from "react";
-import { Component } from "react";
-// import "./Playlist.css";
+import './playlist.css'
 // import Card from 'react-bootstrap/Card'
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
-class Playlist extends Component {
-  render() {
+const Playlist = ({name, artist, photo, photoAlt}) => {
     return (
       <div className="container">
-      <div style={{ color: "white" }} className="comp">
+      <div  className="comp">
         
-              <img src={this.props.photo} alt={this.props.photoAlt} className="photo"/>
+              <img src={photo} alt={photoAlt} className="photo"/>
             
-                <h3 className="track">{this.props.name}</h3>
+                <h2 className="track">{name}</h2>
               
-                <h3 className="artist">{this.props.artist}</h3>
+                <h3 className="artist">{artist}</h3>
               
       </div>
       </div>
     );
-  }
 }
 
 export default Playlist;
