@@ -12,7 +12,7 @@ const  About = () => {
           <br />
           <br/>
           <p   >made with <Emoji text=":heart:" /> by 
-                <a style={{color:"#92D3FF"}} href="https://www.linkedin.com/in/govind-/" target = "_blank" >  </a>
+                <a style={{color:"#92D3FF"}} href="https://www.linkedin.com/in/govind-/" >  </a>
           </p>
         </div>
       );

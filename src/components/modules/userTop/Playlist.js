@@ -1,4 +1,5 @@
 import React from 'react';
+import * as $ from "jquery";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import useIsMounted from '../../../utils/useIsMounted';
 import TopGenre from './topGenre';
@@ -28,7 +29,7 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
 
 
   const [play, setPlay] = React.useState({
-   favurl: "",
+      favurl: "",
       favplayid: "",
       recURIs: [],
       recurl: "",
@@ -151,23 +152,23 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
     const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
     var date = monthNames[today.getMonth()] + " " + today.getFullYear();
-    fetch( 
-       "https://api.spotify.com/v1/users/"+userId+"/playlists", {
-
-      method: "POST",
-      body: JSON.stringify({name: "Your " + date + " Favorites"}, {description: "Created with rec."}),
-      
-        headers: { Authorization: 'Bearer ' + token }
-       }
-    ).then(res => res.json()).then(play => {
-        setPlay({
-          ...play,
+     $.ajax({
+      url: "https://api.spotify.com/v1/users/"+userId+"/playlists",
+      type: "POST",
+      data: JSON.stringify({name: "Your " + date + " Favorites"}, {description: "Created with Carousel."}),
+      beforeSend: xhr => {
+        xhr.setRequestHeader("Authorization", "Bearer " + token);
+      },
+      success: play => {
+        setPlay((prevState) => ({
+          ...prevState,
           favurl: play.external_urls.spotify,
           favplayid: play.id,
           createdFav: true
-        });
+        }));
         populateFavPlaylist();
-    }).catch(err => console.log(err))
+      }
+    });
 
   }
     const populateFavPlaylist = () =>{
@@ -176,25 +177,26 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
     for (var i = 0; i < topTracksShortTerm.length; i++) {
       songURIs[i] = topTracksShortTerm[i].uri
     };
-    fetch(   "https://api.spotify.com/v1/playlists/"+play.favplayid+"/tracks",
-      {
-        method: "POST",
-         body: JSON.stringify({"uris": songURIs}), 
-         headers: { Authorization: 'Bearer ' + token},
-        
-     });
+     $.ajax({
+      url: "https://api.spotify.com/v1/playlists/"+play.favplayid+"/tracks",
+      type: "POST",
+      data: JSON.stringify({"uris": songURIs}),
+      beforeSend: xhr => {
+        xhr.setRequestHeader("Authorization", "Bearer " + token);
+      }
+    });
   }
 
    const   populateRecPlaylist = ()=> {
     //ADD SONGS TO REC Playlist
-    fetch( 
-       "https://api.spotify.com/v1/playlists/"+play.recid+"/tracks", {
-
+       $.ajax({
+      url: "https://api.spotify.com/v1/playlists/"+play.recid+"/tracks",
       type: "POST",
       data: JSON.stringify({"uris": play.recURIs}),
-         headers: { Authorization: 'Bearer ' + token},
-       }
-     );
+      beforeSend: xhr => {
+        xhr.setRequestHeader("Authorization", "Bearer " + token);
+      }
+    });
   }
   console.log(play, "this is display play in playlist");
     const getRecs = () => {
@@ -223,31 +225,34 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
       for (var i = 0; i < tracks.length; i++) {
         songURIs.push(tracks[i].uri);
       }
-      setPlay({
+      setPlay((prevState) => ({
+        ...prevState,
         recURIs: songURIs
-      });
+      }));
       populateRecPlaylist();
     });
   }
 
   //Create Rec Playlist
   const createRecPlaylist = ()=> {
-    fetch( 
-       "https://api.spotify.com/v1/users/"+userId+"/playlists", {
-
-      method: "POST",
-      body: JSON.stringify({name: "you might like these BY rec"}, {description: "Created with rec."}),
-
-         headers: { Authorization: 'Bearer ' + token},
-    }).then(res => res.json()).then(play => {
-        setPlay({
-          ...play,
+     $.ajax({
+      url: "https://api.spotify.com/v1/users/"+userId+"/playlists",
+      type: "POST",
+      data: JSON.stringify({name: "you might like these BY Carousel"}, {description: "Created with Carousel."}),
+      beforeSend: xhr => {
+        xhr.setRequestHeader("Authorization", "Bearer " + token);
+      },
+      success: play => {
+        setPlay((prevState) => ({
+          ...prevState,
           recurl: play.external_urls.spotify,
           recid: play.id,
           createdRec: true
-        });
+        }));
+        
         getRecs();
-    }).catch(err => console.log(err))
+      }
+    });
 
   }
    React.useEffect(()=> {
