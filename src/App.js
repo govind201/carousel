@@ -3,7 +3,7 @@ import './App.css';
 import Login from './components/pages/Login';
 import AudioFeatures from './utils/AudioFeautures';
 import { getTokenFromResponse } from './utils/credentials';
-
+import Title from './components/modules/Title';
 function App() {
 
   const [token, setToken] = React.useState('');
@@ -41,11 +41,12 @@ function App() {
   const isToken = (token? <p>Yes, they have token</p>: <p>No, they don't </p>)
   return (
     <>
-    <div class = "body"  >
+    <div class = "body gradient-bg" >
       {!token && <Login />}
       {token && user.userId && (
         <div >
-          <div class = 'title'>
+            <Title />
+          <div >
             <p>{isToken}</p>
            <h1>Welcome to carousel, </h1> 
            <h1>ALL THE MUSIC YOU LOVE</h1> 

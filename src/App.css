@@ -1,14 +1,36 @@
- body {
+ /* body {
       height: 100vh;
       background: linear-gradient(to bottom right, #9bb5cc, rgb(9, 32, 54));
-      /* background: linear-gradient(to bottom right, #222222, #222222 ); */
-      /* background: #222222;  */
       background-repeat: no-repeat; 
         background-attachment: fixed;
-      /* background: linear-gradient(to bottom right, #130404, rgb(44, 43, 23)); */
-      /* background: linear-gradient(to bottom right, #2D3F48,#a4c5c7); */
-    }
+    } */
 
+    html {
+    font-family: 'Proxima Nova', sans-serif;
+    color: white;
+}
+
+.gradient-bg {
+    position: relative;
+    background: #4300ff;
+    background: linear-gradient(135deg, #4300ff 0%, #717371 100%);
+    height: 100vh;
+}
+
+.gradient-bg::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+        0deg,
+        #000 0%,
+        rgba(0, 0, 0, .5) 12%,
+        rgba(0, 0, 0, .1) 30%,
+        rgba(0, 0, 0, 0) 40%
+    );
+}
 .title{
   display: flex;
   justify-content: center;

@@ -44,7 +44,8 @@ const AudioFeatures = ({ token, userId}) => {
 
     const [filteredIDArr, setFilteredIDArr] = React.useState([]);
 
-    const [topSongsArr, setTopSongsArr] = React.useState([]);
+    const [currentMoodSongs, setCurrentMoodSongs] = React.useState([]);
+    const [isMoodSongsLoaded, setIsMoodSongsLoaded] = React.useState(false); 
 
     const [dropdownOpenMood, setOpenMood] = React.useState(false);
 
@@ -237,10 +238,11 @@ React.useEffect(() => {
   //take in an array of filtered IDs and return the image, track name, artist
     if (filteredIDArr.length === 0 || !filteredIDArr){
       console.log("empty");
-      setTopSongsArr([])
+      setCurrentMoodSongs([])
       return;
     }
-     console.log("filterredIdarr in useEffect for fetching top tracks for the current mood")
+    setIsMoodSongsLoaded(false);
+     console.log("filterredIdarr in useEffect for fetching top tracks for the current mood", filteredIDArr)
     let arrLink = filteredIDArr.reduce((total, init) => (total + ","+ init) , "");
     arrLink = arrLink.slice(1,);
     console.log("arrlink in audioFeatures",arrLink)
@@ -250,17 +252,20 @@ React.useEffect(() => {
         }).then((response) => response.json())
          .then((data) => {
               console.log("From data in audiofeatures in util",data)
-         return setTopSongsArr(
+          setCurrentMoodSongs(
          (data.tracks.map(item => (
                      {
+                    id: item.id,
                     name: item.name,
                     artist: item.album.artists[0].name,
                     photo: item.album.images[2].url,
                      })
                      ))
-                    )}
+                    );
+                  
+           setIsMoodSongsLoaded(false);
+                  }
                     )
-        
                     .catch(error => console.log(error))
     
   
@@ -430,7 +435,7 @@ const toggleMood = () => {
   console.log("To check Filtered Id arr", filteredIDArr)
   console.log("To check  topTracks Loaded", tracksLoaded)
   console.log("To check tracksInfoLoaded", trackInfoLoaded)
-  console.log("To check top songsArr", topSongsArr)
+  console.log("To check top songsArr", currentMoodSongs)
  
   return (
     <div>
@@ -492,11 +497,11 @@ const toggleMood = () => {
               {(Mood !== "") ?
 
                   <div>
-                      {(topSongsArr.length !== 0) ? 
+                      {(currentMoodSongs.length !== 0) ? 
                           <div >
-                              {topSongsArr.map((element) => {
+                              {currentMoodSongs.map((element) => {
                                 return (
-                                  <div key= {element.name}>
+                                  <div key= {element.id}>
                                     <Playlist
                                       name={element.name}
                                       artist={element.artist}

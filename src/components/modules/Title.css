@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@900&display=swap');
+
+.title {
+    font-family:'Montserrat';
+    font-size: 5rem;
+}
