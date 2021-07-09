@@ -10,6 +10,29 @@
     color: white;
 }
 
+/* .gradient-bg{
+background: linear-gradient(to left, rgba(10,0,10,1) , #53346D,rgba(10,0,10,1));
+  position:absolute;
+  left:-20px;
+  width:103%;
+  height:100%;
+}
+input{
+  border:none;
+  outline:none;
+  background:linear-gradient(rgba(0,0,0,0.2),transparent 100%);
+  width:100%;
+  height:70px;
+  font-family:"Open Sans";
+  color:rgba(255,255,255,0.5);
+  padding:0px 20px;
+  font-weight:900;
+  font-size:30px;
+  position:absolute;
+  display:none;
+  animation:intro 0.2s 1 linear;
+} */
+/* this is spotify gradient */
 .gradient-bg {
     position: relative;
     background: #4300ff;

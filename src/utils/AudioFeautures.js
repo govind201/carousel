@@ -1,11 +1,10 @@
 import React from 'react';
-
+import Login from '../components/pages/Login.jsx';
 import {
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Button
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Playlist from "./Playlist.js";
@@ -261,16 +260,15 @@ React.useEffect(() => {
                     photo: item.album.images[2].url,
                      })
                      ))
-                    );
+                    )
                   
-           setIsMoodSongsLoaded(false);
+           setIsMoodSongsLoaded(true);
                   }
                     )
                     .catch(error => console.log(error))
     
   
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, [filteredIDArr]);    
+}, [filteredIDArr, token]);    
 
 
 //FUNCTIONS TO FILTER MOODS
@@ -360,7 +358,7 @@ const  select_tracks = (track)  =>{
     );
   }
    // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [Mood, topTracks.longTerm, topTracks.mediumTerm, topTracks.shortTerm,viewNum]);
+   }, [Mood, viewNum]);
 
 const toggleMood = () => {
     setOpenMood(!dropdownOpenMood);
@@ -438,8 +436,9 @@ const toggleMood = () => {
   console.log("To check top songsArr", currentMoodSongs)
  
   return (
-    <div>
-        { token && 
+    <div> 
+      {!token && <Login/>}
+        {  token && 
       <div>
             <div style={{textAlign: "center"}}>
               <ButtonDropdown
@@ -494,7 +493,7 @@ const toggleMood = () => {
               <br />
               <br />
               
-              {(Mood !== "") ?
+              {(Mood && isMoodSongsLoaded ) ?
 
                   <div>
                       {(currentMoodSongs.length !== 0) ? 
@@ -528,7 +527,6 @@ const toggleMood = () => {
       </div>
          ) 
           }
-          <h2>Click <Button >here</Button> to start if you've signed in!</h2>
       </div>  
   );
 };
