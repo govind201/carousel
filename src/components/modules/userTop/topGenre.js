@@ -65,6 +65,7 @@ const TopGenre = ({ topArtists }) => {
      setGenre(topGenre)
      fillStates(topGenre)
      setDataLoaded(true)
+
   }
 
    console.log("jfks",genre) 

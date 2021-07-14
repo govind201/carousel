@@ -26,7 +26,7 @@ const CreatePlaylist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, aud
     tempo: {},
   });
 
- const [topArtistsLoaded, setTopArtistsLoaded] = React.useState(false);
+ const [topArtistsLoaded, setTopArtistsLoaded] = React.useState(null);
 
   const [play, setPlay] = React.useState({
       favurl: "",
@@ -113,7 +113,9 @@ const CreatePlaylist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, aud
     });
   };
   React.useEffect(() => {
-
+    if(topArtists.length >= 5 | topArtistsLoaded  | isLoaded) {
+console.log("oop more thaaan 10 toARtists", topArtists);
+    }
     setTopArtistsLoaded(false);
     fetch(
       'https://api.spotify.com/v1/me/top/artists?limit=5&time_range=short_term',
@@ -140,7 +142,9 @@ const CreatePlaylist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, aud
       }
       )
       .catch((err) => console.log(err));
-  }, [token, isMounted]);
+      
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMounted, token]);
 
 
   React.useEffect(()=> {
@@ -150,11 +154,12 @@ const CreatePlaylist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, aud
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topArtists.length])
 
-function createFavPlaylist () {
+ async function  createFavPlaylist () {
     var today = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
     var date = monthNames[today.getMonth()] + " " + today.getFullYear();
+    
      $.ajax({
       url: "https://api.spotify.com/v1/users/"+userId+"/playlists",
       type: "POST",
@@ -162,19 +167,24 @@ function createFavPlaylist () {
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
       },
-      success: play => {
-        setPlay((prevState) => ({
+      success: async play => {
+        console.log("State of play inside createFavPlaylsit", play);
+         setPlay((prevState) => ({
           ...prevState,
           favurl: play.external_urls.spotify,
           favplayid: play.id,
-          createdFav: true
+          createdFav: true,
         }));
-        populateFavPlaylist();
+       await  populateFavPlaylist();
       }
     });
 
   }
     function populateFavPlaylist() {
+      if(!play.favplayid) {
+        console.log("favPlayid not available yet", play)
+        return;  
+      }
     //getting URIs for the songs
     var songURIs = [topTracksShortTerm.length]
     for (var i = 0; i < topTracksShortTerm.length; i++) {
@@ -192,6 +202,10 @@ function createFavPlaylist () {
 
     //ADD SONGS TO REC Playlist
     function populateRecPlaylist(){
+      if(!play.recid) {
+        console.log("Play.recid not available yet")
+        return;
+      }
        $.ajax({
       url: "https://api.spotify.com/v1/playlists/"+play.recid+"/tracks",
       type: "POST",
@@ -243,7 +257,7 @@ function createFavPlaylist () {
   }
 
   //Create Rec Playlist
-  function createRecPlaylist() {
+ async  function createRecPlaylist() {
      $.ajax({
       url: "https://api.spotify.com/v1/users/"+userId+"/playlists",
       type: "POST",
@@ -251,7 +265,7 @@ function createFavPlaylist () {
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
       },
-      success: play => {
+      success: async play => {
         setPlay((prevState) => ({
           ...prevState,
           recurl: play.external_urls.spotify,
@@ -259,7 +273,7 @@ function createFavPlaylist () {
           createdRec: true
         }));
         
-        getRecs();
+        await getRecs();
       }
     });
 
@@ -305,7 +319,7 @@ function createFavPlaylist () {
     }
 
 
-console.log(topArtists)
+console.log("TopARtists", topArtists)
   return (
     <div>
 

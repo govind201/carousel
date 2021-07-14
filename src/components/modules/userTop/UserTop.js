@@ -12,7 +12,7 @@ const UserTop = ({ token, topArtists, topTracks}) => {
       <p> user top Tracks</p>
       <ol>
         {topArtists.map((item) => (
-          <li key={item.id}>
+          <li key={item.uri}>
             <div>{item.name}</div>
           </li>
         ))}
