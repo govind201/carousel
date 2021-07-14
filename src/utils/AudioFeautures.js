@@ -11,6 +11,7 @@ import Playlist from "./Playlist.js";
 import Emoji from "react-emoji-render";
 import useIsMounted from './useIsMounted.js';
 import UserTopFeatures from '../components/modules/UserTopFeatures.js';
+import CreatePlaylist from '../components/modules/userTop/CreatePlaylist.js';
 // import UserTopFeaturges from '../components/modules/UserTopFeatures';
 
 
@@ -520,9 +521,9 @@ const toggleMood = () => {
             </div>
         }
 
-         {token &&  (
+         {token &&  trackInfoLoaded && tracksLoaded && (
          <div> 
-      <Playlist userId = {userId} token={token} topTracksShortTerm = {topTracks.shortTerm} audioFeaturesShortTerm = {audioFeaturesShortTerm} audioFeaturesMediumTerm = {audioFeaturesMediumTerm} />
+      <CreatePlaylist userId = {userId} token={token} topTracksShortTerm = {topTracks.shortTerm} audioFeaturesShortTerm = {audioFeaturesShortTerm} audioFeaturesMediumTerm = {audioFeaturesMediumTerm} />
       <UserTopFeatures  audioFeaturesShortTerm = {audioFeaturesShortTerm} audioFeaturesMediumTerm = {audioFeaturesMediumTerm}/>
       </div>
          ) 

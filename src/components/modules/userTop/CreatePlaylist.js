@@ -10,7 +10,7 @@ import Login from '../../pages/Login';
 import Logo from '../../../utils/Logo';
 const spotifyApi = new SpotifyWebApi()
 
-const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeaturesMediumTerm, userId }) => {
+const CreatePlaylist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeaturesMediumTerm, userId }) => {
   const [topArtists, setTopArtists] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(false);
   const isMounted = useIsMounted();
@@ -26,7 +26,7 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
     tempo: {},
   });
 
-
+ const [topArtistsLoaded, setTopArtistsLoaded] = React.useState(false);
 
   const [play, setPlay] = React.useState({
       favurl: "",
@@ -55,7 +55,7 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
     let tempo = [];
 
     for (let i = 0; i < audioFeaturesShortTerm.length; i++) {
-      acousticness.push(audioFeaturesShortTerm[i].Acousticness);
+      acousticness.push(audioFeaturesShortTerm[i].acousticness);
       danceability.push(audioFeaturesShortTerm[i].danceability);
       energy.push(audioFeaturesShortTerm[i].energy);
       instrumentalness.push(audioFeaturesShortTerm[i].instrumentalness);
@@ -64,7 +64,7 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
       tempo.push(audioFeaturesShortTerm[i].tempo);
     }
     for (let i = 0; i < audioFeaturesMediumTerm.length; i++) {
-      acousticness.push(audioFeaturesMediumTerm[i].Acousticness);
+      acousticness.push(audioFeaturesMediumTerm[i].acousticness);
       danceability.push(audioFeaturesMediumTerm[i].danceability);
       energy.push(audioFeaturesMediumTerm[i].energy);
       instrumentalness.push(audioFeaturesMediumTerm[i].instrumentalness);
@@ -77,7 +77,7 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
       acousticness: {
         value: Math.round(getAverage(acousticness) * 100) / 100,
         desc:
-          'Acousticness is a measure from 0.0 to 1.0 of how acoustic your tracks are, where 1.0 is most acoustic and 0.0 is least acoustic.',
+          'acousticness is a measure from 0.0 to 1.0 of how acoustic your tracks are, where 1.0 is most acoustic and 0.0 is least acoustic.',
       },
       danceability: {
         value: Math.round(getAverage(danceability) * 100) / 100,
@@ -113,6 +113,8 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
     });
   };
   React.useEffect(() => {
+
+    setTopArtistsLoaded(false);
     fetch(
       'https://api.spotify.com/v1/me/top/artists?limit=5&time_range=short_term',
       {
@@ -134,7 +136,9 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
             ])
           );
         }
-      })
+      setTopArtistsLoaded(true);
+      }
+      )
       .catch((err) => console.log(err));
   }, [token, isMounted]);
 
@@ -146,8 +150,7 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topArtists.length])
 
-
-  const createFavPlaylist = () => {
+function createFavPlaylist () {
     var today = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
@@ -171,7 +174,7 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
     });
 
   }
-    const populateFavPlaylist = () =>{
+    function populateFavPlaylist() {
     //getting URIs for the songs
     var songURIs = [topTracksShortTerm.length]
     for (var i = 0; i < topTracksShortTerm.length; i++) {
@@ -187,8 +190,8 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
     });
   }
 
-   const   populateRecPlaylist = ()=> {
     //ADD SONGS TO REC Playlist
+    function populateRecPlaylist(){
        $.ajax({
       url: "https://api.spotify.com/v1/playlists/"+play.recid+"/tracks",
       type: "POST",
@@ -199,12 +202,18 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
     });
   }
   console.log(play, "this is display play in playlist");
+
+
     const getRecs = () => {
+      if(!isLoaded && !topAudioFeatures.isLoading)  {
+      console.log("in getRec", isLoaded, topAudioFeatures);
+      return;
+      }
     //Use top 5 artists as seeds
     var len = 5;
     var artistSeeds = [len];
     for (var i = 0; i < len; i++) {
-      artistSeeds[i] = topArtists[i].id
+      artistSeeds[i] = topArtists[i].id;
     };
     var songURIs = [];
     //Grab Recommendations
@@ -213,12 +222,12 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
       seed_artists: artistSeeds,
       min_popularity: 10,
       max_popularity: 50,
-      tuseridarget_acousticness: topAudioFeatures.Acousticness.value,
-      target_danceability: topAudioFeatures.Danceability.value,
-      target_energy: topAudioFeatures.Energy.value,
-      target_instrumentalness: topAudioFeatures.Instrumentalness.value,
-      target_speechiness: topAudioFeatures.Speechiness.value,
-      target_valence: topAudioFeatures.Valence.value,
+      target_acousticness: topAudioFeatures.acousticness.value,
+      target_danceability: topAudioFeatures.danceability.value,
+      target_energy: topAudioFeatures.energy.value,
+      target_instrumentalness: topAudioFeatures.instrumentalness.value,
+      target_speechiness: topAudioFeatures.speechiness.value,
+      target_valence: topAudioFeatures.valence.value,
     })
     .then ((data) => {
       var tracks = data.tracks;
@@ -230,11 +239,11 @@ const Playlist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, audioFeat
         recURIs: songURIs
       }));
       populateRecPlaylist();
-    });
+    })
   }
 
   //Create Rec Playlist
-  const createRecPlaylist = ()=> {
+  function createRecPlaylist() {
      $.ajax({
       url: "https://api.spotify.com/v1/users/"+userId+"/playlists",
       type: "POST",
@@ -315,19 +324,22 @@ console.log(topArtists)
               <div >
                 <span>1. Your Current Favorites</span>
               </div>
-              <div >
+              <div > { topArtistsLoaded &&  topTracksShortTerm &&(
+
                   <UserTop topTacks={topTracksShortTerm.slice(0, 10)} topArtists={topArtists.slice(0, 10)}/>
+              )
+                }
               </div>
             </div>
             <div  >
-              {favbutton}
+              {isLoaded && favbutton}
             </div>
             <div >
               <span>Carousel</span>
               <p > Find new music based on the average features of the music you already love.</p>
             </div>
             <div >
-              {recbutton}
+              {isLoaded && !topAudioFeatures.isLoading && recbutton}
             </div>
             Created by Govind Singh. Made using React and Spotify api 
           </div>
@@ -351,9 +363,9 @@ console.log(topArtists)
       </div>
       }
 
-        { <TopGenre topArtists={topArtists} />}  
+        { topArtists &&  <TopGenre topArtists={topArtists} />}  
     </div>
   );
 };
-export default Playlist;
+export default CreatePlaylist; 
 
