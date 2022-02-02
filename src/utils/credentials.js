@@ -25,7 +25,8 @@ export const getTokenFromResponse = () => {
 
 
 let redirectUri = 'http://localhost:3000/carousel';
-let PROD_REDIRECT_URI = 'https://spotify-carousel.netlify.app/carousel';
+// let PROD_REDIRECT_URI = 'https://spotify-carousel.netlify.app/carousel';
+ let PROD_REDIRECT_URI = ' https://spotify-carousel.herokuapp.com/home';
 if(process.env.REACT_APP_ENVIRONMENT === 'PROD') {
      redirectUri = PROD_REDIRECT_URI;
  }
