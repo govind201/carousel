@@ -1,0 +1,82 @@
+ /* body {
+      height: 100vh;
+      background: linear-gradient(to bottom right, #9bb5cc, rgb(9, 32, 54));
+      background-repeat: no-repeat; 
+        background-attachment: fixed;
+    } */
+
+    html {
+    font-family: 'Proxima Nova', sans-serif;
+    color: white;
+}
+
+/* .gradient-bg{
+background: linear-gradient(to left, rgba(10,0,10,1) , #53346D,rgba(10,0,10,1));
+  position:absolute;
+  left:-20px;
+  width:103%;
+  height:100%;
+}
+input{
+  border:none;
+  outline:none;
+  background:linear-gradient(rgba(0,0,0,0.2),transparent 100%);
+  width:100%;
+  height:70px;
+  font-family:"Open Sans";
+  color:rgba(255,255,255,0.5);
+  padding:0px 20px;
+  font-weight:900;
+  font-size:30px;
+  position:absolute;
+  display:none;
+  animation:intro 0.2s 1 linear;
+} */
+/* this is spotify gradient */
+.gradient-bg {
+    position: relative;
+    /* background: #4300ff; */
+    /* background: linear-gradient(135deg, #4300ff 0%, #717371 100%); */
+    height: 100vh;
+      /* background-repeat: no-repeat;  */
+        /* background-attachment: fixed; */
+}
+
+/* .gradient-bg::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+        0deg,
+        #000 0%,
+        rgba(0, 0, 0, .5) 12%,
+        rgba(0, 0, 0, .1) 30%,
+        rgba(0, 0, 0, 0) 40%
+    );
+}
+.title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dotted pink;
+  margin: 0 auto;
+} */
+
+.head{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 70px;
+
+}
+h1{
+  color:  rgb(36, 14, 14);
+  font-size: large;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+h3{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}

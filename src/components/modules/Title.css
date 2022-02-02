@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@900&display=swap');
+
+.title {
+    display: flex;
+    justify-content: center;
+}
+.carousel {
+    margin: 0 auto;
+    display: fixed;
+    border-radius: 1rem;
+    padding: 0rem  2rem;
+    color: white;
+    background-color: #1DB954;
+    margin: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 2em;
+    cursor: pointer;
+}
