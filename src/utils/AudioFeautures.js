@@ -197,10 +197,10 @@ React.useEffect(() => {
     setIsMoodSongsLoaded(false);
      console.log("filterredIdarr in useEffect for fetching top tracks for the current mood", filteredIDArr)
     let arrLink = filteredIDArr.map(item => item.id).reduce((total, init) => (total + ","+ init) , "");
-     arrLink.slice(1,);
-    console.log("arrlink in audioFeatures",arrLink)
+     let arr = arrLink.slice(1,);
+    console.log("arrlink in audioFeatures", arr)
     
-    fetch(`https://api.spotify.com/v1/tracks?ids=${arrLink}`, 
+    fetch(`https://api.spotify.com/v1/tracks?ids=${arr}`, 
         {headers: {'Authorization': 'Bearer ' + token}
         }).then((response) => response.json())
          .then((data) => {
@@ -314,8 +314,8 @@ const  select_tracks = (track)  =>{
       audioFeaturesShortTerm
     );
   }
-   // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [Mood, viewNum]);
+
+   }, [Mood, audioFeaturesLongTerm, audioFeaturesMediumTerm, audioFeaturesShortTerm, loading, trackInfoLoaded, viewNum]);
 
 
 
