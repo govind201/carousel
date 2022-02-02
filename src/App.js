@@ -57,7 +57,7 @@ function App() {
             <div className="head">
               <div>
                 <RubberBand>
-                  <h1>WELCOME TO CROUSEL</h1>
+                  <h1>WELCOME TO CAROUSEL</h1>
                 </RubberBand>
                 <Wobble>
                   <h2>All the music you kneed</h2>

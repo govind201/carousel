@@ -24,6 +24,15 @@ export default function DenseAppBar() {
             Crousal
           </Typography>
           <Typography variant="h6" color="inherit" component="div" margin={2}>
+            TopArtists
+          </Typography>
+          <Typography variant="h6" color="inherit" component="div" margin={2}>
+            TopTracks
+          </Typography>
+          <Typography variant="h6" color="inherit" component="div" margin={2}>
+            Favourites
+          </Typography>
+          <Typography variant="h6" color="inherit" component="div" margin={2}>
             graphs
           </Typography>
           <Typography variant="h6" color="inherit" component="div" margin={2}>
