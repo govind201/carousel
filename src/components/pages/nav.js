@@ -1,7 +1,7 @@
-import React from "react";
-import "./static/nav.css";
+// import React from "react";
+// import "./static/nav.css";
 
-export default function Nav() {
+/*export default function Nav() {
   return (
     <div className="title">
       <div className="content-menu">
@@ -41,3 +41,4 @@ export default function Nav() {
     </div>
   );
 }
+*/
