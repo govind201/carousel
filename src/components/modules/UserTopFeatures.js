@@ -1,4 +1,5 @@
 import React from 'react';
+import CreatePlaylist from './userTop/CreatePlaylist';
 import TopFeatures from './userTop/TopFeatures';
 
 const UserTopFeatures = ({
@@ -92,7 +93,10 @@ const UserTopFeatures = ({
     <div>
       <button onClick={TopAudioFeaturesCalled}>Show audio Features</button>({' '}
       {!topAudioFeatures.isLoading && (
+        <div>
         <TopFeatures topAudioFeatures={topAudioFeatures} />
+        <CreatePlaylist />
+          </div>
       )}
       )
     </div>

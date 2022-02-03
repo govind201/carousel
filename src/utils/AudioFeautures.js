@@ -10,7 +10,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Playlist from "./Playlist.js";
 import Emoji from "react-emoji-render";
 import useIsMounted from './useIsMounted.js';
-import UserTopFeatures from '../components/modules/UserTopFeatures.js';
 import CreatePlaylist from '../components/modules/userTop/CreatePlaylist.js';
 import './audioFeatures.css';
 import useFetchAll from './useFetchAll.js';
@@ -89,14 +88,7 @@ const AudioFeatures = ({ token, userId}) => {
   
   }, [isMounted, shortTerm, token]);
 
-  //for medium Term info of tracks
   React.useEffect(() => {
-    // console.log("useEffect for audioFeatures medium term called")
-    // if(audioFeaturesMediumTerm.length === 50 || loading) {
-    //    console.log("still loading tracks or tracks not loaded", loading, mediumTerm)
-    //    console.log(audioFeaturesMediumTerm);
-    //  return;
-    // }
     let mediumTermArr =  mediumTerm.map(item => item.id).reduce(
       (total, curr) => total + ',' + curr,
       ''
@@ -473,7 +465,6 @@ const toggleMood = () => {
          {token  && !loading && trackInfoLoaded &&(
          <div> 
       <CreatePlaylist userId = {userId} token={token} topTracksShortTerm = {shortTerm} audioFeaturesShortTerm = {audioFeaturesShortTerm} audioFeaturesMediumTerm = {audioFeaturesMediumTerm} />
-      <UserTopFeatures  audioFeaturesShortTerm = {audioFeaturesShortTerm} audioFeaturesMediumTerm = {audioFeaturesMediumTerm}/>
       </div>
          ) 
           }

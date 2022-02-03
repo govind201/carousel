@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TopGenre from './topGenre';
 import SpotifyWebApi from 'spotify-web-api-js';
-import TopFeatures from './TopFeatures';
 import UserTop from './UserTop';
 import Login from '../../pages/Login';
 import Logo from '../../../utils/Logo';
 import useFetch from "../../../utils/useFetch";
+import TopFeatures from './TopFeatures';
 const spotifyApi = new SpotifyWebApi()
 const  url = 'https://api.spotify.com/v1/me/top/artists?limit=50&time_range=short_term';
 
@@ -155,7 +155,7 @@ const CreatePlaylist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, aud
         desc:
           'Tempo is the overall estimated tempo of a track in beats per minute (BPM).',
       },
-      isLoaded: true,
+      isLoaded: false,
     });
   };
 
@@ -283,6 +283,9 @@ const CreatePlaylist = ({ token, topTracksShortTerm, audioFeaturesShortTerm, aud
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recPlay.recid]
 )
+ function showTopAudioFeatures() {
+   setTopAudioFeatures({...topAudioFeatures, isLoaded: true});
+ }
 
     const linkStyle= {
       margin: "50em 0 0 0",
@@ -353,11 +356,11 @@ console.log("TopARtists", topArtists)
           </div>
         )}
 
-      <button onClick={TopAudioFeaturesCalled}>Show audio Features</button>({' '}
-      {!topAudioFeatures.isLoading && (
-        <TopFeatures topAudioFeatures={topAudioFeatures} />
+      <button onClick={showTopAudioFeatures}>Show audio Features</button>
+       {topAudioFeatures.isLoaded&& (
+        <TopFeatures  topAudioFeatures={topAudioFeatures} />
       )}
-      ) {
+       {
    !loading && 
       <div>
   
