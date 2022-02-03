@@ -75,6 +75,3 @@ function App() {
 
 export default App;
 
-// <SearchTracks
-//   token={token}
-// />
