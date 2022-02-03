@@ -12,6 +12,7 @@ import Emoji from "react-emoji-render";
 import useIsMounted from './useIsMounted.js';
 import UserTopFeatures from '../components/modules/UserTopFeatures.js';
 import CreatePlaylist from '../components/modules/userTop/CreatePlaylist.js';
+import './audioFeatures.css';
 import useFetchAll from './useFetchAll.js';
 
  const short_term = 'https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=short_term';
@@ -197,10 +198,10 @@ React.useEffect(() => {
     setIsMoodSongsLoaded(false);
      console.log("filterredIdarr in useEffect for fetching top tracks for the current mood", filteredIDArr)
     let arrLink = filteredIDArr.map(item => item.id).reduce((total, init) => (total + ","+ init) , "");
-     arrLink.slice(1,);
-    console.log("arrlink in audioFeatures",arrLink)
+     let arr = arrLink.slice(1,);
+    console.log("arrlink in audioFeatures", arr)
     
-    fetch(`https://api.spotify.com/v1/tracks?ids=${arrLink}`, 
+    fetch(`https://api.spotify.com/v1/tracks?ids=${arr}`, 
         {headers: {'Authorization': 'Bearer ' + token}
         }).then((response) => response.json())
          .then((data) => {
@@ -314,8 +315,8 @@ const  select_tracks = (track)  =>{
       audioFeaturesShortTerm
     );
   }
-   // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [Mood, viewNum]);
+
+   }, [Mood, audioFeaturesLongTerm, audioFeaturesMediumTerm, audioFeaturesShortTerm, loading, trackInfoLoaded, viewNum]);
 
 
 
@@ -444,7 +445,7 @@ const toggleMood = () => {
               
               {(Mood && isMoodSongsLoaded ) ?
 
-                  <div>
+                  <div className='mood-songs-container'>
                       {(currentMoodSongs.length !== 0) ? 
                           <div >
                               {currentMoodSongs.map((element) => {

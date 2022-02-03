@@ -5,7 +5,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
-import { Links } from "react-router-dom";
 
 export default function DenseAppBar() {
   return (
@@ -23,6 +22,15 @@ export default function DenseAppBar() {
 
           <Typography variant="h6" color="inherit" component="div" margin={2}>
             Crousal
+          </Typography>
+          <Typography variant="h6" color="inherit" component="div" margin={2}>
+            TopArtists
+          </Typography>
+          <Typography variant="h6" color="inherit" component="div" margin={2}>
+            TopTracks
+          </Typography>
+          <Typography variant="h6" color="inherit" component="div" margin={2}>
+            Favourites
           </Typography>
           <Typography variant="h6" color="inherit" component="div" margin={2}>
             graphs
