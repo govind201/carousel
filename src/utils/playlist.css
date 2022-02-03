@@ -1,5 +1,5 @@
 .container {
-  display: flex;
+  display: inline-block;
   justify-content: center;
   margin-bottom: 2rem;
   border: 2px dotted red;
@@ -15,7 +15,9 @@
   color: rgb(99, 15, 15);
   font-style: oblique;
   font-size: 1rem;
-
+}
+.comp{
+  display: inline-block;
 }
 
 .track{
