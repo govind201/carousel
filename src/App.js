@@ -3,7 +3,7 @@ import "./App.css";
 import Login from "./components/pages/Login";
 import AudioFeatures from "./utils/AudioFeautures";
 import { getTokenFromResponse } from "./utils/credentials";
-import Nav from "./components/pages/navv";
+import Nav from "./components/pages/nav";
 import Flash from "react-reveal/Flash";
 import Wobble from "react-reveal/Wobble";
 import RubberBand from "react-reveal/RubberBand";

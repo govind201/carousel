@@ -15,6 +15,7 @@ import CreatePlaylist from '../components/modules/userTop/CreatePlaylist.js';
 import './audioFeatures.css';
 import useFetchAll from './useFetchAll.js';
 
+
  const short_term = 'https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=short_term';
  const medium_term = 'https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=medium_term';
  const long_term = 'https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term';
@@ -445,12 +446,14 @@ const toggleMood = () => {
               
               {(Mood && isMoodSongsLoaded ) ?
 
-                  <div className='mood-songs-container'>
+                  <div >
+                      
+                      
                       {(currentMoodSongs.length !== 0) ? 
                           <div >
                               {currentMoodSongs.map((element) => {
                                 return (
-                                  <div key= {element.id}>
+                                  <div  key= {element.id}  className='mood-songs-container'>
                                     <Playlist
                                       name={element.name}
                                       artist={element.artist}
@@ -460,10 +463,20 @@ const toggleMood = () => {
                                   </div>
                                 );
                               })}
+                              
                           </div>
+
+
+
                       : <h3 style={{textAlign: "center"}}>there are no songs that match :(</h3>
                       }
-                      </div>
+
+                    </div>
+
+
+
+
+
                    : <h3 style={{textAlign: "center"}}>Pick a mood!</h3>
                   }
               </div>

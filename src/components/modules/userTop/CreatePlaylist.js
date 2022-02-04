@@ -334,7 +334,7 @@ console.log("TopARtists", topArtists)
               </div>
               <div > { !loading &&  topTracksShortTerm &&(
 
-                  <UserTop token = {token } topTracks={topTracksShortTerm.slice(0, 11)} topArtists={topArtists.slice(0, 11)}/>
+                  <UserTop token = {token } topTracks={topTracksShortTerm.slice(0, 12)} topArtists={topArtists.slice(0, 10)}/>
               )
                 }
               </div>
