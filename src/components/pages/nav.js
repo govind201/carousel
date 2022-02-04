@@ -7,9 +7,12 @@ import IconButton from "@mui/material/IconButton";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import Button from "@mui/material/Button";
 
-export default function DenseAppBar() {
+
+
+
+export default function Nav() {
   const buttonClick = () => {
-    console.log("iam  clicked here twow times");
+    console.log("iam  clicked here twow times")
   };
   return (
     <Box sx={{ flexGrow: 1 }}>

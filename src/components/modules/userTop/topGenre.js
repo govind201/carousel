@@ -1,5 +1,4 @@
 import React from 'react';
-import { Doughnut} from "react-chartjs-2";
 
 
 
@@ -31,6 +30,7 @@ const TopGenre = ({ topArtists }) => {
   ]
  } );
  const[dataLoaded, setDataLoaded] = React.useState(false);
+ const[flatGenre, setFlatGenre] = React.useState({});
  let topGenre = {};
 
  const fillStates = (topGenre) => {
@@ -53,7 +53,8 @@ const TopGenre = ({ topArtists }) => {
     }
     return topGenre
   }  
-  const  getTopGenres = () => {
+  const  getTopGenres = (topArtists) => {
+    handleFlatGenre(topArtists);
       topGenre = {};
       console.log("Get top Genre called")
     let artists = topArtists;
@@ -65,15 +66,32 @@ const TopGenre = ({ topArtists }) => {
      setDataLoaded(true)
 
   }
+  function flatten(arr) {
+    return arr.reduce(function (flat, toFlatten) {
+      return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+    }, []);
+  }
+  function handleFlatGenre(topArtists) {
+     let topGenre = topArtists.map((topArtist) => topArtist.genres);
+     let flattenGenre = flatten(topGenre);
+     setFlatGenre(flattenGenre);
+  }
 
-   console.log("jfks",genre) 
+   console.log("genre",genre) 
   return <div>
     <p>
     This is from  topGenre in userTop
     </p>
-       <button onClick = {getTopGenres}>click to get genre</button> 
-      { dataLoaded &&
-<Doughnut data = {data} />
+       <button onClick = {() => getTopGenres(topArtists)}>click to get genre</button> 
+      { dataLoaded &&(
+      flatGenre.map(gen => (
+        <ul>
+          <li>
+            {gen}
+          </li>
+        </ul>
+      ))
+      )
       } 
     </div>;
 };
