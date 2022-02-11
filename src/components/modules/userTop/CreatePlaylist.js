@@ -415,7 +415,7 @@ const CreatePlaylist = ({
             </p>
           </div>
           <div>{!loading && !topAudioFeatures.isLoading && recbutton}</div>
-          Created by Govind Singh with React and love.
+          Created by Govind and Hassan with React.
         </div>
       )}
 
@@ -423,18 +423,6 @@ const CreatePlaylist = ({
       {topAudioFeatures.isLoaded && (
         <TopFeatures topAudioFeatures={topAudioFeatures} />
       )}
-      {!loading && (
-        <div>
-          <ol>
-            {topArtists.map((item) => (
-              <li key={item.id}>
-                <div>{item.name}</div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
-
       {!loading && <TopGenre topArtists={topArtists} />}
     </div>
   );

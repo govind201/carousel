@@ -1,46 +1,40 @@
 import React from 'react';
-
-
+import { PieChart } from 'react-minimal-pie-chart';
+import { chartColors } from '../colors';
+import '../topGenre.css';
 
 const TopGenre = ({ topArtists }) => {
 
   console.log("TopArtists in TopGenre", topArtists);
  const[genre, setGenre] = React.useState([]);
- const[data, setData] = React.useState({
-  datasets: [
-    {
-      label: 'Rainfall',
-      backgroundColor: [
-        '#B21F00',
-        '#C9DE00',
-        '#2FDE00',
-        '#00A6B4',
-        '#6800B4'
-      ],
-      hoverBackgroundColor: [
-      '#501800',
-      '#4B5000',
-      '#175000',
-      '#003350',
-      '#35014F'
-      ],
-      arr: [],
-  labels: [],
-    }
-  ]
- } );
+ const[data, setData] = React.useState([]);
  const[dataLoaded, setDataLoaded] = React.useState(false);
- const[flatGenre, setFlatGenre] = React.useState({});
  let topGenre = {};
 
  const fillStates = (topGenre) => {
+   
+   let chartData = [];
    let dataArr = [];
    let labelArr = [];
-   for (const  [keyy, value] of Object.entries(topGenre)){
-     dataArr.push(keyy);
-     labelArr.push(value);
+   const sortable = Object.entries(topGenre)
+    .sort(([,a],[,b]) =>  a - b)
+    .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+
+   for (const  [keyy, value] of Object.entries(sortable)){
+     dataArr.push(value);
+     labelArr.push(keyy);
    }
-   setData({...data, arr:dataArr,labelArr:labelArr });
+   console.log("fill States called", dataArr, " lableArr", labelArr);
+   for(let i = 0; i < 10; i++) {
+        chartData.push({
+          title: labelArr[i],
+          color:  chartColors[Math.floor(Math.random() * chartColors.length)],
+          value: dataArr[i],
+        }) 
+   }
+    setData(chartData);
+    console.log("charData",chartData);
+      setDataLoaded(true);
  }
   const addGenre = (artistGenres, topGenre) =>{
     console.log("add genre called", artistGenres)
@@ -54,45 +48,32 @@ const TopGenre = ({ topArtists }) => {
     return topGenre
   }  
   const  getTopGenres = (topArtists) => {
-    handleFlatGenre(topArtists);
       topGenre = {};
       console.log("Get top Genre called")
-    let artists = topArtists;
+    let artists = [...topArtists];
     for (let i = 0; i < artists.length; i++) {
       topGenre = addGenre(artists[i].genres, topGenre);
     }
      setGenre(topGenre)
      fillStates(topGenre)
-     setDataLoaded(true)
-
   }
-  function flatten(arr) {
-    return arr.reduce(function (flat, toFlatten) {
-      return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
-    }, []);
-  }
-  function handleFlatGenre(topArtists) {
-     let topGenre = topArtists.map((topArtist) => topArtist.genres);
-     let flattenGenre = flatten(topGenre);
-     setFlatGenre(flattenGenre);
-  }
-
    console.log("genre",genre) 
-  return <div>
-    <p>
-    This is from  topGenre in userTop
-    </p>
+  return <div className='top-genere'>
+   {
+  dataLoaded &&
+  <PieChart
+  data={data}
+   radius={30}
+   startAngle={10}
+   label={(data) => data.dataEntry.title}
+   labelStyle={{
+    fontSize: "2px",
+    fontColor: "FFFFFA",
+    fontWeight: "80",
+  }}
+  />
+  } 
        <button onClick = {() => getTopGenres(topArtists)}>click to get genre</button> 
-      { dataLoaded &&(
-      flatGenre.map(gen => (
-        <ul>
-          <li>
-            {gen}
-          </li>
-        </ul>
-      ))
-      )
-      } 
     </div>;
 };
 export default TopGenre;

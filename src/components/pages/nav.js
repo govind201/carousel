@@ -10,9 +10,9 @@ import Button from "@mui/material/Button";
 
 
 
-export default function Nav() {
+export default function Nav({recbutton, favbutton}) {
   const buttonClick = () => {
-    console.log("iam  clicked here twow times")
+    console.log("I  am  clicked here two times")
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -38,13 +38,13 @@ export default function Nav() {
             </Button>
           </Typography>
           <Typography margin={2}>
-            <Button variant="contained" onClick={buttonClick}>
-              topTracks
+            <Button variant="contained" onClick={favbutton}>
+              FavMusic
             </Button>
           </Typography>
           <Typography margin={2}>
-            <Button variant="contained" onClick={buttonClick}>
-              TopArtist
+            <Button variant="contained" onClick={recbutton}>
+              Recommend Music
             </Button>
           </Typography>
         </Toolbar>
@@ -52,3 +52,13 @@ export default function Nav() {
     </Box>
   );
 }
+
+
+              // <div>
+              //   <RubberBand>
+              //     <h1>WELCOME TO CAROUSEL</h1>
+              //   </RubberBand>
+              //   <Wobble>
+              //     <h2>All the music you  need</h2>
+              //   </Wobble>
+              // </div>

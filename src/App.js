@@ -60,7 +60,7 @@ function App() {
                   <h1>WELCOME TO CAROUSEL</h1>
                 </RubberBand>
                 <Wobble>
-                  <h2>All the music you kneed</h2>
+                  <h2>All the music you  need</h2>
                 </Wobble>
               </div>
             </div>

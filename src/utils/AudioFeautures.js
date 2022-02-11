@@ -471,16 +471,16 @@ const toggleMood = () => {
 
                    : <h3 style={{textAlign: "center"}}>Pick a mood!</h3>
                   }
-              </div>
-            </div>
-        }
-
          {token  && !loading && trackInfoLoaded &&(
          <div> 
       <CreatePlaylist userId = {userId} token={token} topTracksShortTerm = {shortTerm} audioFeaturesShortTerm = {audioFeaturesShortTerm} audioFeaturesMediumTerm = {audioFeaturesMediumTerm} />
       </div>
          ) 
           }
+              </div>
+            </div>
+        }
+
       </div>  
   );
 };
