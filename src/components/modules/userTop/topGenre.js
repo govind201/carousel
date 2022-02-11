@@ -64,13 +64,14 @@ const TopGenre = ({ topArtists }) => {
   <PieChart
   data={data}
    radius={30}
-   startAngle={10}
+   startAngle={400}
    label={(data) => data.dataEntry.title}
    labelStyle={{
     fontSize: "2px",
     fontColor: "FFFFFA",
     fontWeight: "80",
   }}
+
   />
   } 
        <button onClick = {() => getTopGenres(topArtists)}>click to get genre</button> 
