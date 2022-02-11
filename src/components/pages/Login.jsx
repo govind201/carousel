@@ -40,7 +40,7 @@ const Login = ({ from }) => {
       
 
       <Button className={classes.root}>
-      <Link href={authUrl} style={{ textDecoration: 'none',color : 'white' }}>LOGIN WITH SPOTIFY,{from}</Link>
+      <Link href={authUrl} style={{ textDecoration: 'none',color : 'white' }}>LOGIN WITH SPOTIFY</Link>
       </Button>
     </div>
   );
