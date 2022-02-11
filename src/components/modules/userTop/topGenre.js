@@ -1,7 +1,7 @@
 import React, { } from 'react';
 import { AgChartsReact } from "ag-charts-react";
-
-import '../topGenre.css';
+import "../topGenre.css"
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const TopGenre = ({ topArtists }) => {
 
@@ -65,12 +65,12 @@ const TopGenre = ({ topArtists }) => {
      fillStates(topGenre)
   }
    console.log("genre",genre) 
-  return <div className='top-genere'>
-       <button onClick = {() => getTopGenres(topArtists)}>click to get genre</button> 
+  return (<div className='top-genere'>
+       <button type="button" onClick = {() => getTopGenres(topArtists)}>Top Genre</button>
    {
   dataLoaded &&
-  <AgChartsReact options = {data} />
+  <AgChartsReact class = 'pie-chart' options = {data} />
   } 
-    </div>;
+    </div>);
 };
 export default TopGenre;

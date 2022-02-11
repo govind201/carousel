@@ -9,6 +9,7 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import Playlist from "./Playlist.js";
 import Emoji from "react-emoji-render";
+
 import useIsMounted from './useIsMounted.js';
 import CreatePlaylist from '../components/modules/userTop/CreatePlaylist.js';
 import './audioFeatures.css';
@@ -49,12 +50,6 @@ const AudioFeatures = ({ token, userId}) => {
  
   
   React.useEffect(() => {
-    // if(audioFeaturesShortTerm.length === 50  ||   loading) {
-    //    console.log("still loading tracks or tracks not loaded", loading, shortTerm)
-    //    console.log(audioFeaturesShortTerm);
-    //    return;
-
-    // }
     let  shortTermArr =  shortTerm.map(item => item.id).reduce(
       (total, curr) => total + ',' + curr,
       ''
@@ -190,7 +185,9 @@ const AudioFeatures = ({ token, userId}) => {
     }
     setIsMoodSongsLoaded(false);
      console.log("filterredIdarr in useEffect for fetching top tracks for the current mood", filteredIDArr)
-    let arrLink = filteredIDArr.map(item => item.id).reduce((total, init) => (total + ","+ init) , "");
+     let tempFilterArr = filteredIDArr;
+     tempFilterArr.splice(12);
+    let arrLink =tempFilterArr.map(item => item.id).reduce((total, init) => (total + ","+ init) , "");
      let arr = arrLink.slice(1,);
     console.log("arrlink in audioFeatures", arr)
     
