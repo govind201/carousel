@@ -181,7 +181,7 @@ const AudioFeatures = ({ token, userId}) => {
 
     console.log("filteredIdarr in audioFeatures",filteredIDArr)
 
-React.useEffect(() => {
+ React.useEffect(() => {
   //take in an array of filtered IDs and return the image, track name, artist
     if (filteredIDArr.length === 0 || !filteredIDArr){
       console.log("empty");
