@@ -3,6 +3,7 @@
 This is a simple app that recommends you music based on what you already like.
 You can create a playlist of your fav tracks and search new tracks.
 
+
 A list of music chosen as per your current mood.
 
 
@@ -20,3 +21,10 @@ Fav Artists of the user as per their listening history.
 
 
 
+
+
+
+
+
+
+Created By: Govind Singh and Hassan Suhail.
