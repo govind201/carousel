@@ -316,11 +316,13 @@ const CreatePlaylist = ({
     root: {
       background: "linear-gradient(445deg, #2196F3 30%, #21CBF3 90%)",
       border: 0,
+      width:500,
       borderRadius: 3,
       boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
       color: "white",
       height: 48,
       padding: "0 30px",
+      
     },
   });
   const classes = useStyles(); // to design your playlist
@@ -330,7 +332,7 @@ const CreatePlaylist = ({
         onClick={() => createFavPlaylist()}
         className={classes.root}
         type="button"
-        style={{ textDecoration: "none", color: "white" }}
+        style={{ textDecoration: "none", color: "white" , margin:50}}
       >
         Click to make a playlist of your favorites!
       </Button>
@@ -359,7 +361,7 @@ const CreatePlaylist = ({
         onClick={() => createRecPlaylist()}
         className={classes.root}
         type="button"
-        style={{ textDecoration: "none", color: "white" }}
+        style={{ textDecoration: "none", color: "white", margin:50 }}
       >
         Click to get rec's recommendations!
       </Button>
@@ -419,11 +421,21 @@ const CreatePlaylist = ({
         </div>
       )}
 
-      <button onClick={showTopAudioFeatures}>Show audio Features</button>
+      <Button
+        onClick={showTopAudioFeatures}
+        className={classes.root}
+        type="button"
+        style={{ textDecoration: "none", color: "white" , margin:50}}
+      >
+        Show audio Features{" "}
+      </Button>
+
       {topAudioFeatures.isLoaded && (
         <TopFeatures topAudioFeatures={topAudioFeatures} />
       )}
+      <div style={{ margin:50}}>
       {!loading && <TopGenre topArtists={topArtists} />}
+      </div>
     </div>
   );
 };
