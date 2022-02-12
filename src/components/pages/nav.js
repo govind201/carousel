@@ -54,11 +54,11 @@ export default function Nav({recbutton, favbutton}) {
 }
 
 
-              // <div>
-              //   <RubberBand>
-              //     <h1>WELCOME TO CAROUSEL</h1>
-              //   </RubberBand>
-              //   <Wobble>
-              //     <h2>All the music you  need</h2>
+  // <div>
+  //   <RubberBand>
+  //     <h1>WELCOME TO CAROUSEL</h1>
+ //   </RubberBand>
+  //   <Wobble>
+//     <h2>All the music you  need</h2>
               //   </Wobble>
               // </div>
