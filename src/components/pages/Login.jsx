@@ -1,11 +1,11 @@
 import React from "react";
 import { authUrl } from "../../utils/credentials";
 import { Typography } from "@mui/material";
-import Link from "@mui/material/Link";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
+import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
-import "./static/Login.css";
 import { makeStyles } from '@mui/styles';
+import "./static/Login.css";
 
 const Login = ({ from }) => {
   const useStyles = makeStyles({

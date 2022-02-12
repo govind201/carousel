@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import TopGenre from "./topGenre";
 import SpotifyWebApi from "spotify-web-api-js";
 import UserTop from "./UserTop";
@@ -9,6 +8,13 @@ import useFetch from "../../../utils/useFetch";
 import TopFeatures from "./TopFeatures";
 import Button from "@mui/material/Button";
 import { makeStyles } from "@mui/styles";
+import Link from "@mui/material/Link";
+import Fade from "react-reveal/Fade";
+import Flip from "react-reveal/Flip";
+import Slide from 'react-reveal/Slide';
+
+
+
 const spotifyApi = new SpotifyWebApi();
 const url =
   "https://api.spotify.com/v1/me/top/artists?limit=50&time_range=short_term";
@@ -308,48 +314,66 @@ const CreatePlaylist = ({
     setTopAudioFeatures({ ...topAudioFeatures, isLoaded: true });
   }
 
-  const linkStyle = {
-    margin: "50em 0 0 0",
-    color: "#d9e254",
-  };
+  // Style playlist
+
   const useStyles = makeStyles({
     root: {
       background: "linear-gradient(445deg, #2196F3 30%, #21CBF3 90%)",
       border: 0,
-      width:500,
+      width: 500,
       borderRadius: 3,
       boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
       color: "white",
       height: 48,
       padding: "0 30px",
-      
     },
   });
-  const classes = useStyles(); // to design your playlist
+  const linkStyles = makeStyles({
+    root: {
+      background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+      border: 0,
+      width: 500,
+      borderRadius: 3,
+      boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+      color: "white",
+      height: 48,
+      padding: "0 30px",
+    },
+  });
+
+  const classes = useStyles();
+  const linkSty = linkStyles();
+
   let favbutton = (
     <div>
-      <Button
-        onClick={() => createFavPlaylist()}
-        className={classes.root}
-        type="button"
-        style={{ textDecoration: "none", color: "white" , margin:50}}
-      >
-        Click to make a playlist of your favorites!
-      </Button>
+      <Fade top big>
+        <Button
+          onClick={() => createFavPlaylist()}
+          className={classes.root}
+          type="button"
+          style={{ textDecoration: "none", color: "white", margin: 50 }}
+        >
+          Click to make a playlist of your favorites!
+        </Button>
+      </Fade>
     </div>
   );
 
   if (favPlay.createdFav) {
     favbutton = (
-      <div>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          style={linkStyle}
-          href={favPlay.favurl}
-        >
-          Your playlist is here.
-        </a>
+      <div style={{ margin: 50 }}>
+        <Flip left>
+          <Button className={linkSty.root}>
+            <Link
+              rel="noopener noreferrer"
+              target="_blank"
+              href={favPlay.favurl}
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              Your favorites playlist is here.
+            </Link>
+          </Button>
+        </Flip>
       </div>
     );
   }
@@ -357,29 +381,33 @@ const CreatePlaylist = ({
   //Rec Button Logic
   let recbutton = (
     <div>
-      <Button
-        onClick={() => createRecPlaylist()}
-        className={classes.root}
-        type="button"
-        style={{ textDecoration: "none", color: "white", margin:50 }}
-      >
-        Click to get rec's recommendations!
-      </Button>
+      <Fade top big>
+        <Button
+          onClick={() => createRecPlaylist()}
+          className={classes.root}
+          type="button"
+          style={{ textDecoration: "none", color: "white", margin: 50 }}
+        >
+          Click to get rec's recommendations!
+        </Button>
+      </Fade>
     </div>
   );
 
   if (recPlay.createdRec) {
     recbutton = (
-      <div>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          style={linkStyle}
-          href={recPlay.recurl}
-        >
-          {" "}
-          Your playlist is here.{" "}
-        </a>
+      <div style={{ margin: 50 }}>
+        <Flip right>
+          <Button className={linkSty.root}>
+            <Link
+              target="_blank"
+              href={recPlay.recurl}
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              Your recommended playlist is here.
+            </Link>
+          </Button>
+        </Flip>
       </div>
     );
   }
@@ -421,20 +449,24 @@ const CreatePlaylist = ({
         </div>
       )}
 
-      <Button
-        onClick={showTopAudioFeatures}
-        className={classes.root}
-        type="button"
-        style={{ textDecoration: "none", color: "white" , margin:50}}
-      >
-        Show audio Features{" "}
-      </Button>
-
+      <div>
+        <Slide left>
+          <Button
+            onClick={showTopAudioFeatures}
+            className={classes.root}
+            type="button"
+            style={{ textDecoration: "none", color: "white", margin: 50 }}
+          >
+            Show audio Features{" "}
+          </Button>
+        </Slide>
+      </div>
       {topAudioFeatures.isLoaded && (
         <TopFeatures topAudioFeatures={topAudioFeatures} />
       )}
-      <div style={{ margin:50}}>
-      {!loading && <TopGenre topArtists={topArtists} />}
+
+      <div style={{ margin: 50 }}>
+        <Fade top big>{!loading && <TopGenre topArtists={topArtists} />}</Fade>
       </div>
     </div>
   );
