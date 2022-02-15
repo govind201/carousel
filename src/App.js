@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import "./App.css";
 import Login from "./components/pages/Login";
 import AudioFeatures from "./utils/AudioFeautures";
@@ -39,6 +39,7 @@ function App() {
       .catch((error) => console.log(error));
   }, [token]);
   console.log(user);
+  console.log("the user is  "   ,user.display_name)
   const isToken = token ? <p>Yes, they have token</p> : <p>No, they don't </p>;
   return (
     <>
@@ -56,8 +57,8 @@ function App() {
 
             <div className="head">
               <div>
-                <RubberBand>
-                  <h1>WELCOME TO CAROUSEL</h1>
+                <RubberBand >
+                  <h1>WELCOME TO CAROUSEL {user.display_name}</h1>
                 </RubberBand>
                 <Wobble>
                   <h2>All the music you  need</h2>

@@ -346,7 +346,7 @@ const CreatePlaylist = ({
 
   let favbutton = (
     <div>
-      <Fade top big>
+      <Fade top big duration = {2000}>
         <Button
           onClick={() => createFavPlaylist()}
           className={classes.root}
@@ -362,7 +362,7 @@ const CreatePlaylist = ({
   if (favPlay.createdFav) {
     favbutton = (
       <div style={{ margin: 50 }}>
-        <Flip left>
+        <Flip left  duration = {2000}>
           <Button className={linkSty.root}>
             <Link
               rel="noopener noreferrer"
@@ -381,7 +381,7 @@ const CreatePlaylist = ({
   //Rec Button Logic
   let recbutton = (
     <div>
-      <Fade top big>
+      <Fade top big duration = {2000}>
         <Button
           onClick={() => createRecPlaylist()}
           className={classes.root}
@@ -397,7 +397,7 @@ const CreatePlaylist = ({
   if (recPlay.createdRec) {
     recbutton = (
       <div style={{ margin: 50 }}>
-        <Flip right>
+        <Flip right duration = {2000}>
           <Button className={linkSty.root}>
             <Link
               target="_blank"
@@ -450,7 +450,7 @@ const CreatePlaylist = ({
       )}
 
       <div>
-        <Slide left>
+        <Fade top big  duration = {2000}>
           <Button
             onClick={showTopAudioFeatures}
             className={classes.root}
@@ -459,14 +459,14 @@ const CreatePlaylist = ({
           >
             Show audio Features{" "}
           </Button>
-        </Slide>
+        </Fade>
       </div>
       {topAudioFeatures.isLoaded && (
         <TopFeatures topAudioFeatures={topAudioFeatures} />
       )}
 
       <div style={{ margin: 50 }}>
-        <Fade top big>{!loading && <TopGenre topArtists={topArtists} />}</Fade>
+        <Fade top big duration = {2000}>{!loading && <TopGenre topArtists={topArtists} />}</Fade>
       </div>
     </div>
   );
