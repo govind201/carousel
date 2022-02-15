@@ -25,6 +25,10 @@ Fav Artists of the user as per their listening history.
 
 
 
+https://user-images.githubusercontent.com/91627576/154016604-6f7f8b68-c566-49eb-a8ef-22da210abe3b.mp4
+
+
+
 
 
 Created By: Govind Singh and Hassan Suhail.
