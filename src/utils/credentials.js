@@ -25,12 +25,12 @@ export const getTokenFromResponse = () => {
 };
 
 
-let redirectUri = 'http://localhost:3000/carousel';
+let redirectUri = 'https://carousel-react-app.herokuapp.com';
 // let PROD_REDIRECT_URI = 'https://spotify-carousel.netlify.app/carousel';
- let PROD_REDIRECT_URI = ' https://carousel-react-app.herokuapp.com';
-if(process.env.REACT_APP_ENVIRONMENT === 'PROD') {
-     redirectUri = PROD_REDIRECT_URI;
- }
+//  let PROD_REDIRECT_URI = 'https://carousel-react-app.herokuapp.com';
+// if(process.env.REACT_APP_ENVIRONMENT === 'PROD') {
+    //  redirectUri = PROD_REDIRECT_URI;
+//  }
 
 
 
