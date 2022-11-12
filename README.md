@@ -3,7 +3,6 @@
 This is a simple app that recommends you music based on what you already like.
 You can create a playlist of your fav tracks and search new tracks.
 
-Deployed at: https://carousel-react-app.herokuapp.com
 
 A list of music chosen as per your current mood.
 
@@ -32,6 +31,4 @@ https://user-images.githubusercontent.com/91627576/154016604-6f7f8b68-c566-49eb-
 
 
 
-Created By:
-1) Govind Singh (This account)
-2) Hassan Suhail (https://github.com/hassansuhail322)
+Created By: Govind Singh and Hassan Suhail.
